@@ -3,31 +3,16 @@ VR Game with Unity: adventure game based on University's project, continuation a
 
 To-do
 ---
-* [ ] Mechanics
-  * [ ] action: walk
-  * [ ] action: sword handling / fighting
+Build
+* [ ] Fix / be able to build and send `Scenes/Village` to Oculus 2 device.
 
-* [ ] Story
-* [ ] Technology
-* [ ] Aesthetics
+GitHub Files
+* [ ] Clean un-used files from previous non-VR game version (e.g. WebGL)
+* [ ] `Assets/Oculus`: keep required/useful files only
+* [ ] Remove un-used Assets from previous non-VR game version (e.g. `Assets/BlenderObjects/lowPolyCharacter1.fbx`)
 
----
-## Tetrad
-- Aesthetics: small medieval village, wooden surrounding, fairy/happy/playful ambiance.
-- Mechanics: actions (simple walk around, archery, sword, object handling), space (open world, virtual reality),
-objects (fairy, houses, bow, arrow, sword, items like bottle of potion, enemies), rules, skills, chance.
-- Technology: virtual reality headset standalone (Oculus Quest 2)
-- Story: a young hero, helped by a fairy, starts a wonderful journey filled with discovery and adventures
+Unity
+* [ ] Remove gameobject `BasicPlayer` once the new VR controller is properly setup.
+* [ ] fix Mechanics - Action: walk/run, sword handling
+* [ ] fix Mechanics - Action: fighting
 
-## Moodboard and References
-Zelda, Black Forest in Germany, Sword Reverie (VR game), BalloonShooter (VR game), Flow Weaver (VR game), 
-
-## Unity
-- Walk: PlayerController, OVRCameraRig, TrackingSpace, Left/Center/RightEyeAnchor, TrackerAnchor, Left/RightHandAnchor, ...
-- Interactable Object: Grabber, Grabbable
-- Destroyable
-
-## Scripts
-- OVRPlayerController
-- Objects
-- Enemies AI
