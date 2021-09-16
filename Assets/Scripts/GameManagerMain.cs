@@ -139,7 +139,8 @@ public class GameManagerMain : MonoBehaviour
     {
         if (!_dialoguesMenuCanvas.enabled)
         {
-            FindObjectOfType<DiscoverPads>().freezeMovements = true;  // deactivate any update on keyboard+mouse movements
+            // TODO: adapt to VR controller: DiscoverPads
+            // FindObjectOfType<DiscoverPads>().freezeMovements = true;  // deactivate any update on keyboard+mouse movements
             _dialoguesMenuCanvas.enabled = true;
             screenBusy = true;
             FindObjectOfType<DialogueManager>().StartDialogue(jsonFile);

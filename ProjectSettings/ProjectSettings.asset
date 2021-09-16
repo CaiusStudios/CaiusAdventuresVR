@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: Caius Studios
-  productName: CaiusAdventures_beta0
+  productName: CaiusAdventuresVR
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -128,7 +128,9 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 11400000, guid: d490cbea0c2c64a4e8b73791f9b453da, type: 2}
+  - {fileID: 3400764562395676228, guid: 10f52ade5b852e74c894484ebd2eeecb, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -146,8 +148,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.CaiusStudios.CaiusAdventures_beta0
-    Standalone: com.CaiusStudios.CaiusAdventuresbeta0
+    Android: com.CaiusStudios.CaiusAdventuresVR
+    Standalone: com.CaiusStudios.CaiusAdventuresVR
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -229,7 +231,7 @@ PlayerSettings:
   clonedFromGUID: c0afd0d1d80e3634a9dac47e8a0426ea
   templatePackageId: com.unity.template.3d@5.0.4
   templateDefaultScene: Assets/Scenes/SampleScene.unity
-  useCustomMainManifest: 0
+  useCustomMainManifest: 1
   useCustomLauncherManifest: 0
   useCustomMainGradleTemplate: 0
   useCustomLauncherGradleManifest: 0

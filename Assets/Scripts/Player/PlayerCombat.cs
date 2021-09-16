@@ -17,15 +17,16 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if the movements are frozen, attack is frozen as well in this script.
-        _freezeAttack = FindObjectOfType<DiscoverPads>().freezeMovements;
-        _playerAudioFx = FindObjectOfType<PlayerAudioFX>();
-        
-        if (Input.GetKeyDown(KeyCode.Mouse0) & !_freezeAttack)
-        {
-            Attack();
-            _playerAudioFx.PlayAudioFX();
-        }
+        // TODO: adapt to VR controller: DiscoverPads, KeyCode.Mouse0
+        // // if the movements are frozen, attack is frozen as well in this script.
+        // _freezeAttack = FindObjectOfType<DiscoverPads>().freezeMovements;
+        // _playerAudioFx = FindObjectOfType<PlayerAudioFX>();
+        //
+        // if (Input.GetKeyDown(KeyCode.Mouse0) & !_freezeAttack)
+        // {
+        //     Attack();
+        //     _playerAudioFx.PlayAudioFX();
+        // }
     }
 
     void Attack()
