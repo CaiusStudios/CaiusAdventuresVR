@@ -70,7 +70,7 @@ public class EnemyAIStateMachine : MonoBehaviour
                 FindTarget(thePlayer);
                 break;
             case State.ChaseTarget:
-                Debug.Log("Enemy is chasing us!");
+                //Debug.Log("Enemy is chasing us!");
                 // move to target
                 _rotationToTarget = Quaternion.LookRotation(thePlayer.transform.position - transform.position, lookRotationUpwards);
                 transform.rotation = _rotationToTarget;
@@ -80,7 +80,7 @@ public class EnemyAIStateMachine : MonoBehaviour
                 // Close enough to begin attack 'motion'
                 if (Vector3.Distance(transform.position, thePlayer.transform.position) < attackRange)
                 {
-                    Debug.Log("enemy is about to attack...");
+                    //Debug.Log("enemy is about to attack...");
                     // and time allowed for next attack
                     if (Time.time > _nextShootTime)
                     {
@@ -148,5 +148,10 @@ public class EnemyAIStateMachine : MonoBehaviour
             // Target is within range!
             _state = State.ChaseTarget;
         }
+    }
+
+    public void Push(Vector3 force)
+    {
+        transform.position += force;
     }
 }

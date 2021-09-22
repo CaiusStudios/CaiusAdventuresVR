@@ -32,11 +32,11 @@ public class EnemyCombat : MonoBehaviour
         // damage the player
         foreach (Collider player in _hitPlayer)
         {
-            Debug.Log("the enemy is attacking (and hit " + player.name +")");
+           // Debug.Log("the enemy is attacking (and hit " + player.name +")");
             // make sure the player itself is hit - and not its blade, etc.
             if (player.CompareTag("Player"))
             {
-                Debug.Log(player.name + " hit by " + gameObject.name);
+                //Debug.Log(player.name + " hit by " + gameObject.name);
                 player.GetComponent<PlayerHealthDamageController>().TakeDamage(enemyCurrentStrikeStrength);
             }
         }

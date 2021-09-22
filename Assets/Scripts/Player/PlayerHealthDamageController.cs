@@ -13,7 +13,7 @@ public class PlayerHealthDamageController : MonoBehaviour
     
     public void TakeDamage(int damage)
     {
-        Debug.Log("we are getting hit by a damage of " + damage);
+        //Debug.Log("we are getting hit by a damage of " + damage);
         currentHealth -= damage;
     }
 }
