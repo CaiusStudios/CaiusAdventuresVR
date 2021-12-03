@@ -104,7 +104,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6507991216410460984}
-  - component: {fileID: 6507991216410460981}
   - component: {fileID: 6507991216410460986}
   - component: {fileID: 6507991216410460987}
   - component: {fileID: 1296141333}
@@ -133,21 +132,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6507991216410460981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6507991216410460985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d03842f98b96cc94393a0e7a243bcd7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  damageInflictionPoint: 5
-  _currentHealth: 0
 --- !u!114 &6507991216410460986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +150,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   enemyCurrentStrikeStrength: 25
-  attackRate: 2
+  maxHealth: 100
 --- !u!114 &6507991216410460987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +185,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   babyEnemy: {fileID: 3104872516432755791, guid: 14b21787c091fb648a4fed1b45772482, type: 3}
+  strengthLeft: 0
+  playerIsPresent: 0
+  magicPillars: []
 --- !u!1 &6507991216466657874
 GameObject:
   m_ObjectHideFlags: 0

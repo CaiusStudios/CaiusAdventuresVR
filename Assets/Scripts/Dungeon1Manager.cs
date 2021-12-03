@@ -49,6 +49,6 @@ public class Dungeon1Manager : MonoBehaviour
         FindObjectOfType<GameManagerMain>().gameUICanvas.enabled = false;
         _endMenuCanvas.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
-        FindObjectOfType<DiscoverPads>().freezeMovements = true;
+        //FindObjectOfType<DiscoverPads>().freezeMovements = true;
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SwordScript : MonoBehaviour
@@ -18,19 +16,27 @@ public class SwordScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        float impact;
+        float damage;
+        Vector3 forceDirection;
         switch (collision.collider.tag)
         {
-            case "Enemy":
             case "DungeonBoss":
-                float impact = Vector3.Distance(transform.position, previousPosition) / Time.deltaTime;
-                float damage = Mathf.Min(impact * damageFactor, maxDamage);
-                collision.gameObject.GetComponent<EnemyHealthDamageController>().TakeDamage((int)damage);
-                Vector3 forceDirection = (player.transform.position - collision.gameObject.transform.position).normalized * Mathf.Min(maxPushDistance, impact);
+                impact = Vector3.Distance(transform.position, previousPosition) / Time.deltaTime;
+                damage = Mathf.Min(impact * damageFactor, maxDamage);
+                collision.gameObject.GetComponent<EnemyManager>().TakeDamage((int)damage);
+                forceDirection = (collision.gameObject.transform.position - player.transform.position).normalized * Mathf.Min(maxPushDistance, impact);
+                collision.gameObject.GetComponent<EnemyAIPureAttack>().Push(forceDirection);
+                break;
+            case "Enemy":
+                impact = Vector3.Distance(transform.position, previousPosition) / Time.deltaTime;
+                damage = Mathf.Min(impact * damageFactor, maxDamage);
+                collision.gameObject.GetComponent<EnemyManager>().TakeDamage((int)damage);
+                forceDirection = (collision.gameObject.transform.position - player.transform.position).normalized * Mathf.Min(maxPushDistance, impact);
                 collision.gameObject.GetComponent<EnemyAIStateMachine>().Push(forceDirection);
-                Debug.Log("Enter " + collision.gameObject.tag + " with damage " + damage+ " and force " + forceDirection);
+                // Debug.Log("Enter " + collision.gameObject.tag + " with damage " + damage+ " and force " + forceDirection);
                 break;
             case "Destroyable":
-                Debug.Log("We hit " + collision.gameObject.name);
                 collision.gameObject.GetComponent<Destroyable>().DestroyWithFragments();
                 break;
         }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyCombat : MonoBehaviour
+public class EnemyManager : MonoBehaviour
 {
     public Transform attackPoint;
     public float attackRange = 0.5f;

@@ -1,14 +1,10 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.AI;
-using Random = UnityEngine.Random;
 
 // reference: https://unitycodemonkey.com/video.php?v=db0KWYaWfeM
 public class EnemyAIPureAttack : MonoBehaviour
 {
     private float _nextShootTime;
-    private EnemyCombat _thisEnemyCombat;
+    private EnemyManager _thisEnemyCombat;
     private Quaternion _rotationToTarget;
     
     public float speedOfChase = 8.0f;
@@ -20,14 +16,9 @@ public class EnemyAIPureAttack : MonoBehaviour
     private void Awake()
     {
         thePlayer = GameObject.FindWithTag("Player");
-        _thisEnemyCombat = gameObject.GetComponent<EnemyCombat>();
+        _thisEnemyCombat = gameObject.GetComponent<EnemyManager>();
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -40,19 +31,19 @@ public class EnemyAIPureAttack : MonoBehaviour
         // Close enough to begin attack 'motion'
         if (Vector3.Distance(transform.position, thePlayer.transform.position) < attackRange)
         {
-            Debug.Log("AI attack");
             // and time allowed for next attack
             if (Time.time > _nextShootTime)
             {
-                // stop moving
-                // ...
-                // animation: attack
-                // ...
                 // Inflict damage
                 _thisEnemyCombat.Attack();
                 // update time to next attack
                 _nextShootTime = Time.time + 1f / fireRate;
             }
         }
+    }
+    
+    public void Push(Vector3 force)
+    {
+        transform.position += force;
     }
 }

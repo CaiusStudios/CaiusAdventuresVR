@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1975006536086456998}
   - component: {fileID: 3226682272015779075}
   - component: {fileID: 802640360074244553}
-  - component: {fileID: 2936512384995200222}
   - component: {fileID: 4257438764469764916}
   - component: {fileID: 8180304406066740755}
   m_Layer: 0
@@ -86,21 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2936512384995200222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162897749921910812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d03842f98b96cc94393a0e7a243bcd7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  damageInflictionPoint: 5
-  _currentHealth: 0
 --- !u!114 &4257438764469764916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +103,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   enemyCurrentStrikeStrength: 5
-  attackRate: 5
+  maxHealth: 100
 --- !u!114 &8180304406066740755
 MonoBehaviour:
   m_ObjectHideFlags: 0

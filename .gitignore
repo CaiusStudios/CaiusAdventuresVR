@@ -14,8 +14,8 @@
 # Assets/
 
 # Assets: ignore imported one from Oculus, and other for test purposes
-Oculus/
-Materials/
+# Oculus/
+# Materials/
 
 TerrainTextures/
 GroundTexturesPack/

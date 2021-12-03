@@ -386,6 +386,7 @@ MonoBehaviour:
   destroyParent: 0
   fragments: {fileID: 217383651232678803, guid: 1a0e132a1c774c14ba9fde6923bf1ff4, type: 3}
   isDestroyed: 0
+  destroyDelay: 5
 --- !u!1 &7486828008332451816
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +596,7 @@ MonoBehaviour:
   destroyParent: 0
   fragments: {fileID: 217383651232678803, guid: 1a0e132a1c774c14ba9fde6923bf1ff4, type: 3}
   isDestroyed: 0
+  destroyDelay: 5
 --- !u!1 &7486828008351384678
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +608,6 @@ GameObject:
   - component: {fileID: 7486828008351384683}
   - component: {fileID: 7486828008351384680}
   - component: {fileID: 7486828008351384681}
-  - component: {fileID: 277129341302124212}
   - component: {fileID: -3538781979009327809}
   - component: {fileID: 8844234311201531746}
   - component: {fileID: 5557522000349837084}
@@ -663,21 +664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d260ebae401554640a7316043a3a5af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &277129341302124212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7486828008351384678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d03842f98b96cc94393a0e7a243bcd7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  damageInflictionPoint: 5
-  _currentHealth: 0
 --- !u!114 &-3538781979009327809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,7 +682,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   enemyCurrentStrikeStrength: 25
-  attackRate: 2
+  maxHealth: 100
 --- !u!114 &8844234311201531746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,12 +695,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c7016b26d3b73448c44a850434379b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedOfMovement: 4
+  speedOfChase: 8
   startChaseRange: 5
   stopChaseRange: 10
   attackRange: 10
   fireRate: 0.03
-  noVerticalJump: 1
   thePlayer: {fileID: 0}
+  constraintMaxCoordinate: {fileID: 0}
+  constraintMinCoordinate: {fileID: 0}
 --- !u!114 &5557522000349837084
 MonoBehaviour:
   m_ObjectHideFlags: 0

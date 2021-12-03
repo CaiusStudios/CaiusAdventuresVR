@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 // reference: https://unitycodemonkey.com/video.php?v=db0KWYaWfeM
@@ -19,7 +16,7 @@ public class EnemyAIStateMachine : MonoBehaviour
     private Vector3 _wanderPosition;
     private float _reachedPositionDistance = 1.0f;
     private float _nextShootTime = 0.0f;
-    private EnemyCombat _thisEnemyCombat;
+    private EnemyManager _thisEnemyCombat;
     private Quaternion _rotationToTarget;
 
     public float speedOfMovement = 4.0f;
@@ -38,7 +35,7 @@ public class EnemyAIStateMachine : MonoBehaviour
     {
         _state = State.Wandering;
         thePlayer = GameObject.FindWithTag("Player");
-        _thisEnemyCombat = gameObject.GetComponent<EnemyCombat>();
+        _thisEnemyCombat = gameObject.GetComponent<EnemyManager>();
     }
 
     // Start is called before the first frame update

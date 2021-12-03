@@ -47,8 +47,8 @@ public class BossSkullSpawning : MonoBehaviour
             _spawnedBabySkulls.Add(Instantiate(babyEnemy, randomSpawn(), transform.rotation));
 
             strengthLeft--;  // remove a strength-point at each spawn of a baby-enemy
-            Debug.Log("Boss remaining strength: " + strengthLeft);
-            yield return new WaitForSeconds(Random.Range(1, strengthLeft));  // wait 1-8 sec before new baby-enemy launch
+            // Debug.Log("Boss remaining strength: " + strengthLeft);
+            yield return new WaitForSeconds(Random.Range(15, 10));  // wait 1-8 sec before new baby-enemy launch
         }
     }
 

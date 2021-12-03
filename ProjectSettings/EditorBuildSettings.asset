@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/StartMenu.unity
     guid: 6763037c92098f5479177efe9fe11f55
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Village.unity
     guid: c14ac614744a87949b74fe3ee5753d95
   - enabled: 0
     path: Assets/Scenes/Dungeon1.unity
     guid: 52dcf20533d8ab94eb8fe01bf00d2201
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/VRBaseScene.unity
     guid: ea36ea74a1944a7428286fffdd7016fb
   m_configObjects:
