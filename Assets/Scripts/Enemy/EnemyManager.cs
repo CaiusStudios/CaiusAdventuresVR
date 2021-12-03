@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class EnemyCombat : MonoBehaviour
@@ -9,42 +8,33 @@ public class EnemyCombat : MonoBehaviour
     public int enemyCurrentStrikeStrength = 5;
 
     private Collider[] _hitPlayer;
+    
+    public int maxHealth = 100;
+    private int _currentHealth;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        _currentHealth = maxHealth;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    
     public void Attack()
     {
-        // Play an attack animation
-        // animator.SetTrigger("Attack");
-        
         // detect player in range of attack
         _hitPlayer = Physics.OverlapSphere(attackPoint.position, attackRange, playerMask);
         
         // damage the player
         foreach (Collider player in _hitPlayer)
         {
-           // Debug.Log("the enemy is attacking (and hit " + player.name +")");
             // make sure the player itself is hit - and not its blade, etc.
             if (player.CompareTag("Player"))
             {
-                //Debug.Log(player.name + " hit by " + gameObject.name);
-                player.GetComponent<PlayerHealthDamageController>().TakeDamage(enemyCurrentStrikeStrength);
+                player.GetComponent<PlayerManager>().TakeDamage(enemyCurrentStrikeStrength);
             }
         }
     }
     
-    //
     // Draw Gizmo
-    //
     private void OnDrawGizmosSelected()
     {
         if (attackPoint == null)
@@ -53,4 +43,24 @@ public class EnemyCombat : MonoBehaviour
         }
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
+    
+    //
+    // Enemy Health
+    //
+    public void TakeDamage(int damage)
+    {
+        _currentHealth -= damage;
+        
+        if (_currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("Enemy dead");
+        gameObject.SetActive(false);
+    }
+    
 }
