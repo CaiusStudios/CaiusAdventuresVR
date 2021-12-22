@@ -1,7 +1,8 @@
 using UnityEngine;
-//
-// current: rotate the ChainBall GameObject around rotationPoint
-//
+/// <summary>
+///   <para> current: rotate the ChainBall GameObject around rotationPoint.</para>
+///   <para> (which is child GameObject in the Prefabs > Enemies >  Ghost_OneChain, Ghost_TwoChains)</para>
+/// </summary>
 public class ChainBallPosition : MonoBehaviour
 {
     public float speedOfSwing = 20.0f;
@@ -48,6 +49,5 @@ public class ChainBallPosition : MonoBehaviour
         // apply rotation
         transform.RotateAround(_rotationPointTransform.position, _axisRotation,
             Time.deltaTime * speedOfSwing);
-        
     }
 }

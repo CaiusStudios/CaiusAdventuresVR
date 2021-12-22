@@ -8,7 +8,7 @@ public class Dungeon1Manager : MonoBehaviour
     public GameObject positionForEndGate;
 
     private int _nbEndGate = 0;
-    private BossSkullSpawning _bossScriptSpawning;
+    private Dungeon1BossManager _dungeon1BossScriptSpawning;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +17,7 @@ public class Dungeon1Manager : MonoBehaviour
         _endMenuCanvas = GameObject.FindWithTag("EndMenu").GetComponent<Canvas>();
         _endMenuCanvas.enabled = false; // ensure the Pause Menu is deactivated on start
 
-        _bossScriptSpawning = dungeon1Boss.GetComponent<BossSkullSpawning>();
+        _dungeon1BossScriptSpawning = dungeon1Boss.GetComponent<Dungeon1BossManager>();
     }
 
     // Update is called once per frame
@@ -32,7 +32,7 @@ public class Dungeon1Manager : MonoBehaviour
     private void DungeonCompleted()
     {
         // once the boss is defeated (strengthLeft=0), it means no more pillars are left and the level is completed
-        if (_bossScriptSpawning.strengthLeft <= 0 & _nbEndGate == 0)
+        if (_dungeon1BossScriptSpawning.strengthLeft <= 0 & _nbEndGate == 0)
         {
             Vector3 endGateUpdatedPos = positionForEndGate.transform.position;
             endGateUpdatedPos.y = 43.6f;  // to be just visible and accessible to player.
@@ -49,6 +49,6 @@ public class Dungeon1Manager : MonoBehaviour
         FindObjectOfType<GameManagerMain>().gameUICanvas.enabled = false;
         _endMenuCanvas.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
-        FindObjectOfType<DiscoverPads>().freezeMovements = true;
+        //FindObjectOfType<DiscoverPads>().freezeMovements = true;
     }
 }

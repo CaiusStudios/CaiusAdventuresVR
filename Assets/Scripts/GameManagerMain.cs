@@ -7,18 +7,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManagerMain : MonoBehaviour
 {
+    // TODO: why transition between scenes is not managed here in this script?
+    // GameManagerMain is responsible for the
+    //  - load initial scene and dialogues of the game, manage Game Over situation/menu.
+    //  - display of the canvas/menus
+
     public TextAsset prologueJsonFile;
     
-    private PlayerHealthDamageController _scriptPlayerDamage;
+    private PlayerManager _scriptPlayerDamage;
     private bool _playerIsDead;
     public bool screenBusy;  // if true, there is already a canvas (or some screen) on display
     public Canvas gameUICanvas;
     
-    private Canvas _dialoguesMenuCanvas;
-    private Canvas _pauseMenuCanvas;
-    private Canvas _gameoverMenuCanvas;
-    private Canvas _inventoryMenuCanvas;
-    private Canvas _optionsMenuCanvas;
+    public Canvas dialoguesMenuCanvas;
+    public Canvas pauseMenuCanvas;
+    public Canvas gameoverMenuCanvas;
+    public Canvas optionsMenuCanvas;
     
 
     // Start is called before the first frame update
@@ -26,29 +30,24 @@ public class GameManagerMain : MonoBehaviour
     {
         Time.timeScale = 1;  // ensure the time is "running"
         
-        // canvas
-        _dialoguesMenuCanvas = GameObject.FindWithTag("DialoguesMenu").GetComponent<Canvas>();
-        _dialoguesMenuCanvas.enabled = false;
-        _pauseMenuCanvas = GameObject.FindWithTag("PauseMenu").GetComponent<Canvas>();
-        _pauseMenuCanvas.enabled = false; // ensure the Pause Menu is deactivated on start
-        _gameoverMenuCanvas = GameObject.FindWithTag("GameoverMenu").GetComponent<Canvas>();
-        _gameoverMenuCanvas.enabled = false;
-        _inventoryMenuCanvas = GameObject.FindWithTag("InventoryMenu").GetComponent<Canvas>();
-        _inventoryMenuCanvas.enabled = false;
-        _optionsMenuCanvas = GameObject.FindWithTag("OptionsMenu").GetComponent<Canvas>();
-        _optionsMenuCanvas.enabled = false;
+        // dialoguesMenuCanvas = GameObject.FindWithTag("DialoguesMenu").GetComponent<Canvas>();
+        // dialoguesMenuCanvas.enabled = false;
+        // pauseMenuCanvas = GameObject.FindWithTag("PauseMenu").GetComponent<Canvas>();
+        // pauseMenuCanvas.enabled = false; // ensure the Pause Menu is deactivated on start
+        // gameoverMenuCanvas = GameObject.FindWithTag("GameoverMenu").GetComponent<Canvas>();
+        // gameoverMenuCanvas.enabled = false;
+        // optionsMenuCanvas = GameObject.FindWithTag("OptionsMenu").GetComponent<Canvas>();
+        // optionsMenuCanvas.enabled = false;
         
-        // UI
-        gameUICanvas = GameObject.FindWithTag("GameUI").GetComponent<Canvas>();
-        gameUICanvas.enabled = true;
+        // gameUICanvas = GameObject.FindWithTag("GameUI").GetComponent<Canvas>();
+        // gameUICanvas.enabled = true;
         
-        // player
-        _scriptPlayerDamage = GameObject.FindWithTag("Player").GetComponent<PlayerHealthDamageController>();
+        _scriptPlayerDamage = GameObject.FindWithTag("Player").GetComponent<PlayerManager>();
         
-        // if loaded scene = village, then play the prologue
         if (SceneManager.GetActiveScene().name == "Village")
         {
-            DialoguePrologue(prologueJsonFile);
+            Debug.Log("************Starting dialogue********");
+            // DialoguePrologue(prologueJsonFile);
         }
 
     }
@@ -57,112 +56,72 @@ public class GameManagerMain : MonoBehaviour
     void Update()
     {
         // Check if player wants to access the Pause Menu (or exit it if already enabled)
-        if (Input.GetKeyDown(KeyCode.Tab) & (!screenBusy || _pauseMenuCanvas.enabled))
+        if (Input.GetKeyDown(KeyCode.Tab) & (!screenBusy || pauseMenuCanvas.enabled))
         {
             PauseMenuOnOff();
         }
         
-        // Show inventory menu (or exit it if already enabled)
-        if (Input.GetKeyDown(KeyCode.Alpha1) & (!screenBusy || _inventoryMenuCanvas.enabled))
-        {
-            InventoryMenuOnOff();
-        }
         
         // Manage when player dies: show Gameover menu
+        // TODO: consider that PlayerManager should send the information to the GameManagerMain? (call some method) 
         CheckPlayerStatus();
     }
     
-    // Check Player Status: if dead, enable Gameover menu
-    private void CheckPlayerStatus()
-    {
-        if (!_playerIsDead)
-        {
-            if (_scriptPlayerDamage.currentHealth <= 0)
-            {
-                _playerIsDead = true;
-                Debug.Log("Game Over!");
-                Time.timeScale = 0;
-                _gameoverMenuCanvas.enabled = true;
-                screenBusy = true;
-                Cursor.lockState = CursorLockMode.None;
-                FindObjectOfType<DiscoverPads>().freezeMovements = true;  // deactivate any update on keyboard/mouse movements
-            }
-        }
-    }
-    
-    // Show pause menu: on/ff
-    private void PauseMenuOnOff()
-    {
-        if (Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-            _pauseMenuCanvas.enabled = true;
-            screenBusy = true;
-            Cursor.lockState = CursorLockMode.None;
-            FindObjectOfType<DiscoverPads>().freezeMovements = true;  // deactivate any update on keyboard/mouse movements
-
-        } else if (Time.timeScale == 0)
-        {
-            // player wants to exit the Pause menu
-            Time.timeScale = 1;
-            _pauseMenuCanvas.enabled = false;
-            screenBusy = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            FindObjectOfType<DiscoverPads>().freezeMovements = false;
-        }
-    }
-    
-    // Show Inventory Menu: on/off
-    private void InventoryMenuOnOff()
-    {
-        if (Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-            _inventoryMenuCanvas.enabled = true;
-            screenBusy = true;
-            Cursor.lockState = CursorLockMode.None;
-            FindObjectOfType<DiscoverPads>().freezeMovements = true;  // deactivate any update on keyboard+mouse movements
-
-        } else if (Time.timeScale == 0)
-        {
-            // player wants to exit the Pause menu
-            Time.timeScale = 1;
-            _inventoryMenuCanvas.enabled = false;
-            screenBusy = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            FindObjectOfType<DiscoverPads>().freezeMovements = false;
-        }
-    }
-    
-    // Dialogue: start with the prologue at the beginning of the game (when Village scene is loaded)
-    private void DialoguePrologue(TextAsset jsonFile)
-    {
-        if (!_dialoguesMenuCanvas.enabled)
-        {
-            // TODO: adapt to VR controller: DiscoverPads
-            // FindObjectOfType<DiscoverPads>().freezeMovements = true;  // deactivate any update on keyboard+mouse movements
-            _dialoguesMenuCanvas.enabled = true;
-            screenBusy = true;
-            FindObjectOfType<DialogueManager>().StartDialogue(jsonFile);
-        }
-    }
-    
+    //
+    // Start and End of the Game
+    //
     public void StartGame()
     {
         // initial start of the game
         SceneManager.LoadScene("Village");
     }
     
+    private void CheckPlayerStatus()
+    {
+        // The game ends by the display of the Game Over Menu.
+        if (!_playerIsDead)
+        {
+            if (_scriptPlayerDamage.currentHealth <= 0)
+            {
+                _playerIsDead = true;
+                Time.timeScale = 0;
+                gameoverMenuCanvas.enabled = true;
+                screenBusy = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
+    }
+
+    //
+    // Canvas / Menus
+    //
+    private void PauseMenuOnOff()
+    {
+        if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+            pauseMenuCanvas.enabled = true;
+            screenBusy = true;
+            Cursor.lockState = CursorLockMode.None;
+
+        } else if (Time.timeScale == 0)
+        {
+            // player wants to exit the Pause menu
+            Time.timeScale = 1;
+            pauseMenuCanvas.enabled = false;
+            screenBusy = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+    
     public void ResumeGame()
     {
         // a "global purpose" function to exit any of the canvas
         Time.timeScale = 1;
-        _pauseMenuCanvas.enabled = false;
-        _inventoryMenuCanvas.enabled = false;
-        _optionsMenuCanvas.enabled = false;
+        pauseMenuCanvas.enabled = false;
+        optionsMenuCanvas.enabled = false;
         screenBusy = false;
         Cursor.lockState = CursorLockMode.Locked;
-        FindObjectOfType<DiscoverPads>().freezeMovements = false;
     }
 
     public void LoadOptionsMenu()
@@ -170,19 +129,29 @@ public class GameManagerMain : MonoBehaviour
         // assume we were in the Pause Menu and go into the Options Menu
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
-        _pauseMenuCanvas.enabled = false;
-        _optionsMenuCanvas.enabled = true;
+        pauseMenuCanvas.enabled = false;
+        optionsMenuCanvas.enabled = true;
         screenBusy = true;
     }
     
-
-
+    //
+    // Dialogue: start with the prologue at the beginning of the game (when Village scene is loaded)
+    //
+    private void DialoguePrologue(TextAsset jsonFile)
+    {
+        if (!dialoguesMenuCanvas.enabled)
+        {
+            dialoguesMenuCanvas.enabled = true;
+            screenBusy = true;
+            FindObjectOfType<DialogueManager>().StartDialogue(jsonFile);
+        }
+    }
+    
     public void CloseDialogue()
     {
-        if (_dialoguesMenuCanvas.enabled)
+        if (dialoguesMenuCanvas.enabled)
         {
-            FindObjectOfType<DiscoverPads>().freezeMovements = false;  // activate any update on keyboard+mouse movements
-            _dialoguesMenuCanvas.enabled = false;
+            dialoguesMenuCanvas.enabled = false;
             screenBusy = false;
         }
     }

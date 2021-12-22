@@ -46,7 +46,6 @@ public class DialogueManager : MonoBehaviour
         if (_sentences.Count == 0)
         {
             EndDialogue();
-            FindObjectOfType<DiscoverPads>().freezeMovements = false;  // end of dialogue, reactivate movements
             FindObjectOfType<GameManagerMain>().screenBusy = false;  // end of dialogue, screen is free
             return;
         }
