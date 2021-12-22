@@ -1,7 +1,9 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
-
-// reference: https://unitycodemonkey.com/video.php?v=db0KWYaWfeM
+/// <summary>
+///   <para> Going from Wandering to Chasing/Attack back to Wandering.</para>
+/// </summary>
+/// <footer><a href="https://unitycodemonkey.com/video.php?v=db0KWYaWfeM">Original Source/Idea for this state machine</a></footer>
 public class EnemyAIStateMachine : MonoBehaviour
 {
     private enum State
@@ -16,7 +18,7 @@ public class EnemyAIStateMachine : MonoBehaviour
     private Vector3 _wanderPosition;
     private float _reachedPositionDistance = 1.0f;
     private float _nextShootTime = 0.0f;
-    private EnemyManager _thisEnemyCombat;
+    private SkullManager _thisSkullCombat;
     private Quaternion _rotationToTarget;
 
     public float speedOfMovement = 4.0f;
@@ -31,14 +33,20 @@ public class EnemyAIStateMachine : MonoBehaviour
     public GameObject constraintMinCoordinate;
     private Vector3 lookRotationUpwards = Vector3.up;
 
+    /// <summary>
+    ///   <para> Initialize state, player (for its position), and manager (for attack) </para>
+    /// </summary>
     private void Awake()
     {
         _state = State.Wandering;
         thePlayer = GameObject.FindWithTag("Player");
-        _thisEnemyCombat = gameObject.GetComponent<EnemyManager>();
+        _thisSkullCombat = gameObject.GetComponent<SkullManager>();
     }
 
     // Start is called before the first frame update
+    /// <summary>
+    ///   <para> ... </para>
+    /// </summary>
     void Start()
     {
         _startingPosition = transform.position;
@@ -46,6 +54,12 @@ public class EnemyAIStateMachine : MonoBehaviour
     }
 
     // Update is called once per frame
+    /// <summary>
+    ///   <para> Starts and keeps wandering until player is in range. </para>
+    ///   <para> When in range, chases and attacks it if within limit. </para>
+    ///   <para> Goes back wandering if player not in range anymore. </para>.
+    /// </summary>
+    /// TODO: refactor the switch(_state) outside of Update() in 1-2 new methods (incl check on distance)
     void Update()
     {
         switch (_state)
@@ -81,12 +95,8 @@ public class EnemyAIStateMachine : MonoBehaviour
                     // and time allowed for next attack
                     if (Time.time > _nextShootTime)
                     {
-                        // stop moving
-                        // ...
-                        // animation: attack
-                        // ...
                         // Inflict damage
-                        _thisEnemyCombat.Attack();
+                        _thisSkullCombat.Attack();
                         // update time to next attack
                         _nextShootTime = Time.time + fireRate;
                     }
@@ -114,7 +124,9 @@ public class EnemyAIStateMachine : MonoBehaviour
         }
 
     }
-
+    /// <summary>
+    ///   <para> It gives this gameObject a new random destination to move to.</para>
+    /// </summary>
     private Vector3 GetWanderingPosition()
     {
         float[] limitX = new float[2];
@@ -137,16 +149,23 @@ public class EnemyAIStateMachine : MonoBehaviour
     {
         return new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
     }
-
-    private void FindTarget(GameObject TheTarget)
+    
+    /// <summary>
+    ///   <para> While wandering, this gameObject checks if it should chase its target now.</para>
+    /// </summary>
+    /// /// <param name="theTarget"></param>
+    private void FindTarget(GameObject theTarget)
     {
-        if (Vector3.Distance(transform.position, TheTarget.transform.position) < startChaseRange)
+        if (Vector3.Distance(transform.position, theTarget.transform.position) < startChaseRange)
         {
-            // Target is within range!
+            // Yes Target is within range -> go chase it!
             _state = State.ChaseTarget;
         }
     }
-
+    /// <summary>
+    ///   <para> An external impact changes this gameObject's position</para>
+    /// </summary>
+    /// /// <param name="force"></param>
     public void Push(Vector3 force)
     {
         transform.position += force;

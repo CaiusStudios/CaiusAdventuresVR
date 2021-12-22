@@ -1,7 +1,8 @@
 using UnityEngine;
-//
-// current: rotate the Wings GameObject around rotationPoint
-//
+/// <summary>
+///   <para> current: rotate the Wings GameObject around rotationPoint.</para>
+///   <para> (which is a child GameObject in the Prefabs > Enemies >  Skull)</para>
+/// </summary>
 public class WingPosition : MonoBehaviour
 {
     public float directionOfWing; // -1 == left,  +1 == right
@@ -20,19 +21,18 @@ public class WingPosition : MonoBehaviour
         {
             _axisRotation *= directionOfWing;  // we have a LEFT wing
         }
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
         rotateWing();
-        
-
     }
 
-    // TODO: adapt wing rotation when the parent is rotating
+    /// <summary>
+    ///   <para> ... .</para>
+    /// </summary>
+    /// TODO: adapt wing rotation when the parent is rotating
     private void rotateWing()
     {
         // _rotationToTarget = Quaternion.LookRotation(thePlayer.transform.position - transform.position, lookRotationUpwards);

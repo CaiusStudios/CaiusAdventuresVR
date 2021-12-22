@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class BossSkullSpawning : MonoBehaviour
+/// <summary>
+///   <para> Boss of Dungeon 1: controls its "life" (the pillars), and</para>
+///   <para> how he attacks (spawn Skull enemies in smaller version).</para>
+/// </summary>
+public class Dungeon1BossManager : MonoBehaviour
 {
     public GameObject babyEnemy;
     public int strengthLeft;
@@ -19,6 +22,11 @@ public class BossSkullSpawning : MonoBehaviour
     }
 
     // Update is called once per frame
+    /// <summary>
+    ///   <para> The boss launches its minions to attack the player.</para>
+    ///   <para> The boss's health is checked here.</para> 
+    /// </summary>
+    // TODO: boss's health should be checked like any other enemy (e.g. EnemyManager.die() method?).
     void Update()
     {
         if (playerIsPresent & !_bossCoroutineStarted)
@@ -26,7 +34,7 @@ public class BossSkullSpawning : MonoBehaviour
             StartCoroutine(launchBabySkull());
             _bossCoroutineStarted = true;
         }
-        updateCurrentStrength();  // update the 
+        UpdateCurrentStrength();  // update the 
         if (strengthLeft <= 0)
         {
             gameObject.SetActive(false);  // the Boss is dead!
@@ -37,8 +45,34 @@ public class BossSkullSpawning : MonoBehaviour
         }
     }
 
-    // will instantiate new Skull that will attack the player
-    // (they should attack the player irrespective of distance to player)
+    // -------------------------------------------------------------------
+    // Fight related methods
+    // -------------------------------------------------------------------
+    /// <summary>
+    ///   <para> update the number of active magical pillar,</para>
+    ///   <para> which represent the current strength of the boss. </para>
+    /// </summary>
+    private void UpdateCurrentStrength()
+    {
+        int nb = 0;
+        foreach (GameObject pillar in magicPillars)
+        {
+            if (pillar.activeSelf)
+            {
+                nb++;
+            }
+        }
+        strengthLeft = nb;  // update current strength w.r.t. remaining magical pillars
+    }    
+    
+    
+    // -------------------------------------------------------------------
+    // Health related methods
+    // -------------------------------------------------------------------
+    /// <summary>
+    ///   <para> It will instantiate new Skull that will attack the player.</para>
+    ///   <para> They attack the player irrespective of distance to player.</para>
+    /// </summary>
     IEnumerator launchBabySkull()
     {
         while ( strengthLeft > 0 )
@@ -51,23 +85,10 @@ public class BossSkullSpawning : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(15, 10));  // wait 1-8 sec before new baby-enemy launch
         }
     }
-
-    // update the number of active magical pillar => which represent the current strength of the boss
-    private void updateCurrentStrength()
-    {
-        int nb = 0;
-        foreach (GameObject pillar in magicPillars)
-        {
-            if (pillar.activeSelf)
-            {
-                nb++;
-            }
-        }
-
-        strengthLeft = nb;  // update current strength w.r.t. remaining magical pillars
-    }
     
-    // "randomize" spawn position around the Boss
+    /// <summary>
+    ///   <para> This makes the boss spawns his minions randomly around him.</para>
+    /// </summary>
     private Vector3 randomSpawn()
     {
         Vector3 transPos = transform.position;

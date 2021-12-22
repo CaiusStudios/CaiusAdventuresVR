@@ -1,10 +1,13 @@
 using UnityEngine;
 
-// reference: https://unitycodemonkey.com/video.php?v=db0KWYaWfeM
+/// <summary>
+///   <para> Going from Wandering to Chasing/Attack back to Wandering.</para>
+/// </summary>
+/// <footer><a href="https://unitycodemonkey.com/video.php?v=db0KWYaWfeM">Original Source/Idea for this state machine</a></footer>
 public class EnemyAIPureAttack : MonoBehaviour
 {
     private float _nextShootTime;
-    private EnemyManager _thisEnemyCombat;
+    private SkullManager _thisSkullCombat;
     private Quaternion _rotationToTarget;
     
     public float speedOfChase = 8.0f;
@@ -16,7 +19,7 @@ public class EnemyAIPureAttack : MonoBehaviour
     private void Awake()
     {
         thePlayer = GameObject.FindWithTag("Player");
-        _thisEnemyCombat = gameObject.GetComponent<EnemyManager>();
+        _thisSkullCombat = gameObject.GetComponent<SkullManager>();
     }
     
     // Update is called once per frame
@@ -35,13 +38,17 @@ public class EnemyAIPureAttack : MonoBehaviour
             if (Time.time > _nextShootTime)
             {
                 // Inflict damage
-                _thisEnemyCombat.Attack();
+                _thisSkullCombat.Attack();
                 // update time to next attack
                 _nextShootTime = Time.time + 1f / fireRate;
             }
         }
     }
     
+    /// <summary>
+    ///   <para> An external impact changes this gameObject's position</para>
+    /// </summary>
+    /// /// <param name="force"></param>
     public void Push(Vector3 force)
     {
         transform.position += force;

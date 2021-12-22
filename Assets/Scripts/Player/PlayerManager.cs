@@ -37,13 +37,13 @@ public class PlayerManager : MonoBehaviour
         OpenInventoryMenu();
         SwitchSword();
 
-        if (OVRInput.Get(OVRInput.NearTouch.PrimaryIndexTrigger))
-        {
-            Debug.LogWarning(".....................Near index trigger ");
-        }
-
-        float tempPressure = OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger);
-        Debug.Log("...............pressed trigger at : " + tempPressure);
+        // if (OVRInput.Get(OVRInput.NearTouch.PrimaryIndexTrigger))
+        // {
+        //     Debug.LogWarning(".....................Near index trigger ");
+        // }
+        //
+        // float tempPressure = OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger);
+        // Debug.Log("...............pressed trigger at : " + tempPressure);
 
 
 
@@ -67,7 +67,7 @@ public class PlayerManager : MonoBehaviour
 
         if (cCollider.CompareTag("EntranceToDungeon1Boss"))
         {
-            FindObjectOfType<BossSkullSpawning>().playerIsPresent = true;  // enable the boss to "fire" at the player 
+            FindObjectOfType<Dungeon1BossManager>().playerIsPresent = true;  // enable the boss to "fire" at the player 
         }
         
     }

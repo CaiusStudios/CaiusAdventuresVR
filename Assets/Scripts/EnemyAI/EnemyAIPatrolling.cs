@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patrolling : MonoBehaviour
+public class EnemyAIPatrolling : MonoBehaviour
 {
     private float posTolerance = 0.001f;  // tolerence under which gameObject arrived at target
     private int _currentPosId;  // id of the current target from the list of targets
@@ -28,7 +28,7 @@ public class Patrolling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        patrolThroughPoints(targetPoints, speedOfMovement, posTolerance);
+        PatrolThroughPoints(targetPoints, speedOfMovement, posTolerance);
     }
     
     //
@@ -36,7 +36,7 @@ public class Patrolling : MonoBehaviour
     // consecutively, and reach same with tolerance "reachTargetTolerance".
     // Restart from initial position of gameObject and Loop continuously.
     //
-    private void patrolThroughPoints(List<Vector3> pointsToPatrol, float moveSpeed, float reachTargetTolerance)
+    private void PatrolThroughPoints(List<Vector3> pointsToPatrol, float moveSpeed, float reachTargetTolerance)
     {
         _rotationToTarget = Quaternion.LookRotation(pointsToPatrol[_currentPosId] - transform.position, Vector3.up);
         transform.rotation = _rotationToTarget;
