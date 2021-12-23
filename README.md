@@ -1,39 +1,25 @@
 # caius-studios
-VR Game with Unity: adventure game based on University's project, continuation as a personal project in VR.
+Virtual reality game with Unity and Oculus Quest 2.
 
-To-Do
----
-Working on `Scenes/Village` at the moment
+An adventure game based on a University's project and continuing as a personal project in virtual reality (VR).
 
-Build
-* [x] Build `Scenes/Village` and sent to Oculus 2 device
-* [ ] Reduce lag: this build currently lag too much/froze on Oculus 2 device: impossible to play!
+Developed with 
+ - Unity 2020.2.6f1
+   - with Oculus XR Plugin (1.11.2) + XR Plugin Management (4.2.0)
+ - Oculus Quest 2, standalone, stand-up
 
-GitHub Files
-* [ ] Clean un-used files from previous non-VR game version (e.g. WebGL)
-* [ ] `Assets/Oculus`: keep required/useful files only
-* [ ] Remove un-used Assets from previous non-VR game version (e.g. `Assets/BlenderObjects/lowPolyCharacter1.fbx`)
+## To-Do
+* [ ] Working on project [Tetrad: Mechanisms](https://github.com/CaiusStudios/CaiusAdventuresVR/projects/2) at the moment
+* [ ] Could also work on project [Tetrad: Aesthetic and Story](https://github.com/CaiusStudios/CaiusAdventuresVR/projects/3)
+* [ ] Adapat the `StartMenu` Unity Scene with starting menu to VR controllers 
 
-Unity
-* [ ] Remove gameobject `BasicPlayer` once the new VR controller is properly setup.
-* [ ] Adapt scripts for gameobject `OVRPlayerController`
-* [ ] fix Mechanics - Action: walk/run, sword handling
-* [ ] fix Mechanics - Action: fighting
+## Current State of the Game
+The game is made up of one "level" at the moment which includes the `Village` and the `Dungeon1` Unity scenes. No menus.
 
 
-Unity > Hierarchy > Village 
----
-Village
-* `OVRPlayerController`: the new player, using Oculus package
-  * sripts from package: OVRPlayerController, OVRSceneSampleController, OVRDebugInfo
-  * scripts from previous BasicPlayer: PlayerManager, PlayerHealthDamageController, PlayerCombat
-* `BasicPlayer`: represent the old / nonVR player
-* UI / old canvas: PauseMenu, InventoryMenu, OptionsMenu, GameoverMenu, GameUI, DialoguesMenu
-* All other GameObjects are for the environment/enemies
+## Documentation
+Nothing formal, but to keep an overview of things and trying to iterate on ideas/thoughts.
+* Some schemas on [lucid app](https://lucid.app/lucidchart/5db705e2-54cb-40af-95b5-b2446241ebca/edit?viewport_loc=-1856%2C-2738%2C3700%2C1799%2C0_0&invitationId=inv_3d4c1046-40d3-4632-b286-cf34d420f5ce)
+* Some notes on [overleaf](https://www.overleaf.com/read/pmxpmgbyxrsf)
 
-Other Assets/Scenes
----
-* StartMenu
-* Village
-* Dungeon1
-* VRBaseScene: was used for preliminary testing
+(these should be public view-only links. contact Cedric for any problem)
