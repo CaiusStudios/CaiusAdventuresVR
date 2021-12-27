@@ -1,4 +1,4 @@
-# caius-studios
+# Caius Adventures VR
 Virtual reality game with Unity and Oculus Quest 2.
 
 An adventure game based on a University's project and continuing as a personal project in virtual reality (VR).
