@@ -263,7 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1364865732305050920}
-  - component: {fileID: 532439433}
+  - component: {fileID: -1551644889625098122}
   - component: {fileID: 532439434}
   - component: {fileID: 740612197210078294}
   m_Layer: 10
@@ -290,7 +290,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &532439433
+--- !u!114 &-1551644889625098122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,18 +299,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 4605125584814084274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c7016b26d3b73448c44a850434379b, type: 3}
+  m_Script: {fileID: 11500000, guid: 085f61b5377a0e540b5911d4ac11cd9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyBehaviour:
+    StateMachine: 0
+    PureAttack: 0
+    Patrolling: 0
   speedOfMovement: 4
   speedOfChase: 8
-  startChaseRange: 35
-  stopChaseRange: 20
-  attackRange: 7
-  fireRate: 1
+  chaseRange: 10
+  attackRange: 5
+  fireRate: 0.05
   thePlayer: {fileID: 0}
   constraintMaxCoordinate: {fileID: 0}
   constraintMinCoordinate: {fileID: 0}
+  targetPoints: []
 --- !u!114 &532439434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,12 +327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c589b6fde95153247930a281f143f7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPoint: {fileID: 1364865732305050920}
-  attackRange: 2
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  enemyCurrentStrikeStrength: 5
+  pfHealthBar: {fileID: 0}
+  CenterEyeCamera: {fileID: 0}
   maxHealth: 100
 --- !u!65 &740612197210078294
 BoxCollider:
@@ -456,7 +456,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3c6928e806a7298419d1df089d694be8, type: 2}
     - target: {fileID: 919132149155446097, guid: 8694629bbc7cc184cb4f7cca9af65d50, type: 3}
       propertyPath: m_Name
-      value: lowPolySkullHead
+      value: SkullHead
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8694629bbc7cc184cb4f7cca9af65d50, type: 3}
       propertyPath: m_Layer

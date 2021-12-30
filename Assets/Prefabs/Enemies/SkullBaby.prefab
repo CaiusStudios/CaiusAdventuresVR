@@ -263,10 +263,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 436552770411409877}
-  - component: {fileID: 1512655632011660663}
-  - component: {fileID: 3610880997919145265}
   - component: {fileID: 9067976794800119076}
-  - component: {fileID: 1163577815273185251}
+  - component: {fileID: 1512655632011660663}
+  - component: {fileID: 3938932724775427087}
   m_Layer: 10
   m_Name: SkullBaby
   m_TagString: DungeonBoss
@@ -291,41 +290,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1512655632011660663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3104872516432755791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c589b6fde95153247930a281f143f7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPoint: {fileID: 5268435140363169232}
-  attackRange: 3.5
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  enemyCurrentStrikeStrength: 5
-  maxHealth: 100
---- !u!114 &3610880997919145265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3104872516432755791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7539d9eb89898284e9e730a7669418fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedOfChase: 8
-  attackRange: 7
-  fireRate: 1
-  thePlayer: {fileID: 4874947419855138427, guid: 8a9d6d957ed599444b0ae3f1c8b69429, type: 3}
 --- !u!65 &9067976794800119076
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -339,27 +303,46 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.5159607, y: 2.8289642, z: 2.7425652}
   m_Center: {x: -0.14118958, y: -0.050308228, z: -0.1233387}
---- !u!114 &1163577815273185251
+--- !u!114 &1512655632011660663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3104872516432755791}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c7016b26d3b73448c44a850434379b, type: 3}
+  m_Script: {fileID: 11500000, guid: c589b6fde95153247930a281f143f7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pfHealthBar: {fileID: 0}
+  CenterEyeCamera: {fileID: 0}
+  maxHealth: 100
+--- !u!114 &3938932724775427087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3104872516432755791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085f61b5377a0e540b5911d4ac11cd9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyBehaviour:
+    StateMachine: 0
+    PureAttack: 1
+    Patrolling: 0
   speedOfMovement: 4
   speedOfChase: 8
-  startChaseRange: 10
-  stopChaseRange: 10
-  attackRange: 10
+  chaseRange: 10
+  attackRange: 5
   fireRate: 0.05
-  thePlayer: {fileID: 4874947419855138427, guid: 8a9d6d957ed599444b0ae3f1c8b69429, type: 3}
-  constraintMaxCoordinate: {fileID: 0}
-  constraintMinCoordinate: {fileID: 0}
+  thePlayer: {fileID: 0}
+  stateMachineMaxCoordinate: {fileID: 0}
+  stateMachineMinCoordinate: {fileID: 0}
+  patrolPoints: []
 --- !u!64 &1512655631257314871
 MeshCollider:
   m_ObjectHideFlags: 0

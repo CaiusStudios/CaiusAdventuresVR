@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 6507991216410460984}
   - component: {fileID: 1296141333}
   - component: {fileID: 6507991216410460986}
-  - component: {fileID: 6507991216410460987}
+  - component: {fileID: 7481623964801845754}
   m_Layer: 10
   m_Name: Dungeon1Boss
   m_TagString: DungeonBoss
@@ -160,14 +160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c589b6fde95153247930a281f143f7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPoint: {fileID: 0}
-  attackRange: 0.5
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  enemyCurrentStrikeStrength: 25
+  pfHealthBar: {fileID: 0}
+  CenterEyeCamera: {fileID: 0}
   maxHealth: 100
---- !u!114 &6507991216410460987
+--- !u!114 &7481623964801845754
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,18 +172,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6507991216410460985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c7016b26d3b73448c44a850434379b, type: 3}
+  m_Script: {fileID: 11500000, guid: 085f61b5377a0e540b5911d4ac11cd9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyBehaviour:
+    StateMachine: 1
+    PureAttack: 0
+    Patrolling: 0
   speedOfMovement: 4
   speedOfChase: 8
-  startChaseRange: 10
-  stopChaseRange: 10
-  attackRange: 10
+  chaseRange: 10
+  attackRange: 5
   fireRate: 0.05
   thePlayer: {fileID: 0}
-  constraintMaxCoordinate: {fileID: 0}
-  constraintMinCoordinate: {fileID: 0}
+  stateMachineMaxCoordinate: {fileID: 0}
+  stateMachineMinCoordinate: {fileID: 0}
+  patrolPoints: []
 --- !u!1 &6507991216466657874
 GameObject:
   m_ObjectHideFlags: 0

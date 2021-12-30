@@ -553,8 +553,7 @@ GameObject:
   - component: {fileID: 3774600710502615911}
   - component: {fileID: 3740426568717003910}
   - component: {fileID: 3740426568717003904}
-  - component: {fileID: 1718187959976789929}
-  - component: {fileID: 2930484736832490457}
+  - component: {fileID: 888552315435333266}
   m_Layer: 10
   m_Name: Ghost_OneChain
   m_TagString: Ghost
@@ -607,42 +606,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d260ebae401554640a7316043a3a5af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1718187959976789929
+  pfHealthBar: {fileID: 0}
+  MaxHealth: 100
+--- !u!114 &888552315435333266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4551384352998707677}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52596f9ea3efac549b322adcf0f02428, type: 3}
+  m_Script: {fileID: 11500000, guid: 085f61b5377a0e540b5911d4ac11cd9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoints: []
-  speedOfMovement: 10
-  returnToInitialPosition: 1
---- !u!114 &2930484736832490457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4551384352998707677}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c7016b26d3b73448c44a850434379b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  EnemyBehaviour:
+    StateMachine: 0
+    PureAttack: 0
+    Patrolling: 0
   speedOfMovement: 4
   speedOfChase: 8
-  startChaseRange: 5
-  stopChaseRange: 10
-  attackRange: 10
-  fireRate: 0.03
+  chaseRange: 10
+  attackRange: 5
+  fireRate: 0.05
   thePlayer: {fileID: 0}
-  constraintMaxCoordinate: {fileID: 0}
-  constraintMinCoordinate: {fileID: 0}
+  stateMachineMaxCoordinate: {fileID: 0}
+  stateMachineMinCoordinate: {fileID: 0}
+  patrolPoints: []
 --- !u!1 &6110649790013155656
 GameObject:
   m_ObjectHideFlags: 0

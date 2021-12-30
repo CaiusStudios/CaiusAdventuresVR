@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -356,7 +356,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9167769875584245284, guid: fedfcd94d4572a44899d7c4b83d167d4, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9167769875584245284, guid: fedfcd94d4572a44899d7c4b83d167d4, type: 3}
       propertyPath: m_AnchorMax.x
@@ -527,7 +527,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &230659667
 PrefabInstance:
@@ -546,7 +546,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9167769875584245284, guid: 3cc1a2bccf49cf848934c62d485678a7, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9167769875584245284, guid: 3cc1a2bccf49cf848934c62d485678a7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -686,11 +686,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1461984861 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4874947419855138427, guid: 8a9d6d957ed599444b0ae3f1c8b69429, type: 3}
-  m_PrefabInstance: {fileID: 7905315030005641702}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1725214689
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,7 +711,7 @@ TerrainCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725214689}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 90303b3bd69426f4d8d9cd3e464a7906, type: 2}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: af45ef47f545e04479162429d4a63c7e, type: 2}
   m_EnableTreeColliders: 1
@@ -765,7 +760,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1773272670
 GameObject:
@@ -795,7 +790,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1909413385
 PrefabInstance:
@@ -811,7 +806,7 @@ PrefabInstance:
     - target: {fileID: 532439433, guid: 0035b71216ce7524d993193917757231, type: 3}
       propertyPath: thePlayer
       value: 
-      objectReference: {fileID: 1461984861}
+      objectReference: {fileID: 0}
     - target: {fileID: 532439433, guid: 0035b71216ce7524d993193917757231, type: 3}
       propertyPath: constraintMaxCoordinate
       value: 

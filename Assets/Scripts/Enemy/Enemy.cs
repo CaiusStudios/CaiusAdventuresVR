@@ -8,43 +8,39 @@ public class Enemy : MonoBehaviour
 {
     private Collider[] _hitPlayer;
 
+    
     // -------------------------------------------------------------------
     // Properties
     // -------------------------------------------------------------------
-    // the overall health system of the enemy
-    private HealthSystem _healthSystem;
+    private HealthSystem _healthSystem;  // the overall health system of the enemy
     public HealthSystem HealthSystem
     {
         get { return _healthSystem; }
         set { _healthSystem = value; }
     }
-
-    // the damage inflicted by an attack of this enemy.
-    private int _strength = 5;
+    
+    private int _strength = 25;  // the damage inflicted by an attack of this enemy.
     public int Strength
     {
         get { return _strength; }
         set { _strength = value; }
     }
     
-    // how far can the enemy attack
-    private float _attackRange = 0.5f;
+    private float _attackRange = 0.5f;  // how far can the enemy attack
     public float AttackRange
     {
         get { return _attackRange; }
         set { _attackRange = value; }
     }
     
-    // to which LayerMask does the enemy attack
-    private LayerMask _playerMask;
+    private LayerMask _playerMask;  // to which LayerMask does the enemy attack
     public LayerMask PlayerMask
     {
         get { return _playerMask; }
         set { _playerMask = value; }
     }
     
-    // the starting point of the attack; which part of the enemy is really attacking (it's whole body, weapon, etc.)
-    private Transform _attackPoint;
+    private Transform _attackPoint;  // which part of the enemy is really attacking
     public Transform AttackPoint
     {
         get { return _attackPoint; }
@@ -56,20 +52,21 @@ public class Enemy : MonoBehaviour
     // Fight related methods
     // -------------------------------------------------------------------
     /// <summary>
-    ///   <para> It is called by the EnemyAI scripts of the enemy.</para>
+    ///   <para> It is called by the EnemyAI scripts of the enemy to inflict damage.</para>
     /// </summary>
     public void Attack()
     {
         // detect player in range of attack
         _hitPlayer = Physics.OverlapSphere(_attackPoint.position, _attackRange, _playerMask);
-
-        // damage the player
+        
         foreach (Collider player in _hitPlayer)
         {
             // make sure the player itself is hit - and not its blade, etc.
             if (player.CompareTag("Player"))
             {
-                player.GetComponent<PlayerManager>().TakeDamage(_strength);
+                // player.GetComponent<PlayerManager>().TakeDamage(_strength);
+                player.GetComponent<PlayerManager>().HealthSystem.Damage(_strength);
+                Debug.Log("Enemy attacks");
             }
         }
     }
@@ -79,11 +76,7 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void OnDrawGizmosSelected()
     {
-        if (_attackPoint == null)
-        {
-            return;
-        }
-
+        if (_attackPoint == null) { return; }
         Gizmos.DrawWireSphere(_attackPoint.position, _attackRange);
     }
 

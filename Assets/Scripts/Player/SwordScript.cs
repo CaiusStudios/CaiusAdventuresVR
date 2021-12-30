@@ -14,6 +14,9 @@ public class SwordScript : MonoBehaviour
         previousPosition = transform.position;
     }
 
+    /// <summary>
+    ///   <para> Different impacts depending on type of object (boss, enemy, destroyable).</para>
+    /// </summary>
     private void OnCollisionEnter(Collision collision)
     {
         float impact;
@@ -26,14 +29,14 @@ public class SwordScript : MonoBehaviour
                 damage = Mathf.Min(impact * damageFactor, maxDamage);
                 collision.gameObject.GetComponent<SkullManager>().HealthSystem.Damage((int)damage);
                 forceDirection = (collision.gameObject.transform.position - player.transform.position).normalized * Mathf.Min(maxPushDistance, impact);
-                collision.gameObject.GetComponent<EnemyAIPureAttack>().Push(forceDirection);
+                collision.gameObject.GetComponent<EnemyAI>().Push(forceDirection);
                 break;
             case "Enemy":
                 impact = Vector3.Distance(transform.position, previousPosition) / Time.deltaTime;
                 damage = Mathf.Min(impact * damageFactor, maxDamage);
                 collision.gameObject.GetComponent<SkullManager>().HealthSystem.Damage((int)damage);
                 forceDirection = (collision.gameObject.transform.position - player.transform.position).normalized * Mathf.Min(maxPushDistance, impact);
-                collision.gameObject.GetComponent<EnemyAIStateMachine>().Push(forceDirection);
+                collision.gameObject.GetComponent<EnemyAI>().Push(forceDirection);
                 // Debug.Log("Enter " + collision.gameObject.tag + " with damage " + damage+ " and force " + forceDirection);
                 break;
             case "Destroyable":
