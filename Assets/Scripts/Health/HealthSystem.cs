@@ -1,5 +1,9 @@
 using System;
 
+/// <summary>
+///   <para> Independent class to manage Health (enemy, player).</para>
+///   <para> Use System.Event to update health. </para>
+/// </summary>
 public class HealthSystem
 {
     public event EventHandler OnHealthChanged;

@@ -61,10 +61,8 @@ public class GameManagerMain : MonoBehaviour
             PauseMenuOnOff();
         }
         
-        
         // Manage when player dies: show Gameover menu
-        // TODO: consider that PlayerManager should send the information to the GameManagerMain? (call some method) 
-        CheckPlayerStatus();
+        CheckPlayerStatus(); // TODO: make use of Event instead!
     }
     
     //
@@ -81,7 +79,7 @@ public class GameManagerMain : MonoBehaviour
         // The game ends by the display of the Game Over Menu.
         if (!_playerIsDead)
         {
-            if (_scriptPlayerDamage.currentHealth <= 0)
+            if (_scriptPlayerDamage.HealthSystem.GetHealth() <= 0)
             {
                 _playerIsDead = true;
                 Time.timeScale = 0;

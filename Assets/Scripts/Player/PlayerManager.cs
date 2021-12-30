@@ -1,17 +1,25 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
     public int maxHealth = 100;
-    public int currentHealth;
-    private Canvas _redScreenAttack;
-    private float _redScreenDuration = 0.5f;
+    private HealthSystem _healthSystem;
+    public HealthSystem HealthSystem
+    {
+        get { return _healthSystem; }
+        set { _healthSystem = value; }
+    }
     
     private AudioSource _audioSource;
     
     private Canvas _inventoryMenuCanvas;
+    
     private GameObject _currentSword;
+    
+    private Canvas _redScreenAttack;
+    private float _redScreenDuration = 0.25f;
     
     // Start is called before the first frame update
     void Start()
@@ -23,9 +31,10 @@ public class PlayerManager : MonoBehaviour
         // Health
         _redScreenAttack = GameObject.Find("RedScreenAttack").GetComponent<Canvas>();
         HideRedScreen();
-        currentHealth = maxHealth;
-        
-        // Combat
+        _healthSystem = new HealthSystem(maxHealth);
+        _healthSystem.OnHealthChanged += HealthSystemOnOnHealthChanged;
+        _healthSystem.OnDeath += HealthSystemOnOnDeath;
+        Debug.Log("Player starting health: " + _healthSystem.GetHealth());
         
         // Audio
         _audioSource = GetComponent<AudioSource>();
@@ -34,24 +43,13 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OpenInventoryMenu();
-        SwitchSword();
-
-        // if (OVRInput.Get(OVRInput.NearTouch.PrimaryIndexTrigger))
-        // {
-        //     Debug.LogWarning(".....................Near index trigger ");
-        // }
-        //
-        // float tempPressure = OVRInput.Get(OVRInput.RawAxis1D.LHandTrigger);
-        // Debug.Log("...............pressed trigger at : " + tempPressure);
-
-
-
+        OpenInventoryMenu();  // TODO: move to an Event handler
+        SwitchSword();        // TODO: move to an Event handler
     }
 
-    //
+    // -------------------------------------------------------------------
     // Manage Events (change of scene, boss), UI pops-up
-    //
+    // -------------------------------------------------------------------
     private void OnTriggerEnter(Collider cCollider)
     {
         if (cCollider.CompareTag("TriggerNextLevel"))
@@ -67,6 +65,7 @@ public class PlayerManager : MonoBehaviour
 
         if (cCollider.CompareTag("EntranceToDungeon1Boss"))
         {
+            // TODO: the Boss (Enemy) should have the intelligence to detect the Player.
             FindObjectOfType<Dungeon1BossManager>().playerIsPresent = true;  // enable the boss to "fire" at the player 
         }
         
@@ -90,15 +89,18 @@ public class PlayerManager : MonoBehaviour
         }
     }
     
-    //
+    // -------------------------------------------------------------------
     // Player Health
-    //
-    public void TakeDamage(int damage)
+    // -------------------------------------------------------------------
+    private void HealthSystemOnOnHealthChanged(object sender, EventArgs e)
     {
         ShowRedScreen();
         CancelInvoke("HideRedScreen");  // reset timer if hit before
         Invoke("HideRedScreen", _redScreenDuration);
-        currentHealth -= damage;
+    }
+    private void HealthSystemOnOnDeath(object sender, EventArgs e)
+    {
+        Debug.Log("The Player is Dead! Game Over! Try Again!");
     }
 
     private void ShowRedScreen()
