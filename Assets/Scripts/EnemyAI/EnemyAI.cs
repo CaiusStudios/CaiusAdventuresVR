@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Collections.Generic;
@@ -20,16 +21,15 @@ public class EnemyAI : MonoBehaviour
     }
     
     // TODO: CHANGE so that only ONE choice is possible.
-    [System.Serializable]
+    [Serializable]
     public struct PossibleBehaviours
     {
         public bool StateMachine;
         public bool PureAttack;
         public bool Patrolling;
     }
-
     public PossibleBehaviours EnemyBehaviour;
-    
+
     private State _state;
     private Vector3 _startingPosition;
     private Vector3 _wanderPosition;
@@ -42,17 +42,18 @@ public class EnemyAI : MonoBehaviour
     public float speedOfMovement = 4.0f;
     public float speedOfChase = 8.0f;
     public float chaseRange = 10.0f;
-    public float attackRange = 5.0f;
-    public float fireRate = 0.05f;
+    public float attackRange = 1.5f;
+    public float fireRate = 1f;
+    public float stepBackMultiplayer = 1.25f;
     public GameObject thePlayer;
     public GameObject stateMachineMaxCoordinate;
     public GameObject stateMachineMinCoordinate;
     
     // related to patrolling only
-    private float posTolerance = 0.001f;  // tolerence under which gameObject arrived at target
+    private float _posTolerance = 0.001f;  // tolerence under which gameObject arrived at target
     private int _currentPosId;  // id of the current target from the list of targets
     private Vector3 _initPos;  // initial position of the gameObject
-
+    
     public List<Vector3> patrolPoints = new List<Vector3>();  // list of target for patrolling
     
     
@@ -73,6 +74,7 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         _startingPosition = transform.position;
         _wanderPosition = GetWanderingPosition();
         if (EnemyBehaviour.Patrolling)
@@ -93,7 +95,7 @@ public class EnemyAI : MonoBehaviour
             AIPureAttack();
         } else if (EnemyBehaviour.Patrolling)
         {
-            AIPatrolling(patrolPoints, speedOfMovement, posTolerance);
+            AIPatrolling(patrolPoints, speedOfMovement, _posTolerance);
         }
 
     }
@@ -116,9 +118,7 @@ public class EnemyAI : MonoBehaviour
             // and time allowed for next attack
             if (Time.time > _nextShootTime)
             {
-                // Inflict damage
                 _thisSkullCombat.Attack();
-                // update time to next attack
                 _nextShootTime = Time.time + 1f / fireRate;
             }
         }
@@ -213,41 +213,52 @@ public class EnemyAI : MonoBehaviour
     /// </summary>
     private void LogicChaseTarget()
     {
-        //Debug.Log("Enemy is chasing us!");
-        // move to target
-        _rotationToTarget = Quaternion.LookRotation(thePlayer.transform.position - transform.position, lookRotationUpwards);
-        transform.rotation = _rotationToTarget;
-        transform.position = Vector3.MoveTowards(transform.position, thePlayer.transform.position,
-            speedOfChase*Time.deltaTime);
-                
-        // Close enough to begin attack 'motion'
-        if (Vector3.Distance(transform.position, thePlayer.transform.position) < attackRange)
+        // initial distances
+        float initDistanceToPlayer = Vector3.Distance(transform.position, thePlayer.transform.position);
+        Vector3 initDistanceToPlayerVector3 = thePlayer.transform.position - transform.position;
+        
+        // look at the player and chase him
+        if (initDistanceToPlayer > _posTolerance)  // enemy and player are distant
         {
-            //Debug.Log("enemy is about to attack...");
-            // and time allowed for next attack
+            _rotationToTarget = Quaternion.LookRotation(initDistanceToPlayerVector3, lookRotationUpwards);
+        }
+        transform.rotation = _rotationToTarget;  // the enemy look at the player
+        if (_thisSkullCombat.CanAttack)  // the enemy stay idle if he just attacked (and cannot re-attack)
+        {
+            transform.position = Vector3.MoveTowards(  // the enemy effectively start chasing the player
+                transform.position, 
+                thePlayer.transform.position,
+                speedOfChase*Time.deltaTime);
+        }
+
+        // update distance at each frame and check if close enough to begin attack/strike
+        float updatedDistanceToPlayer = Vector3.Distance(transform.position, thePlayer.transform.position);
+        if (updatedDistanceToPlayer <= attackRange && _thisSkullCombat.CanAttack)
+        {
             if (Time.time > _nextShootTime)
             {
-                // Inflict damage
-                _thisSkullCombat.Attack();
-                // update time to next attack
-                _nextShootTime = Time.time + fireRate;
+                Vector3 forceDirection = (transform.position - thePlayer.transform.position).normalized;
+                 _thisSkullCombat.Attack(forceDirection, 1f/fireRate, stepBackMultiplayer);
+                 _nextShootTime = Time.time + 0.25f;
             }
         }
-                
+        
         // stop the chase because we are too far away from target/player
         if (Vector3.Distance(transform.position, thePlayer.transform.position) > chaseRange)
         {
-            _state = State.GoingBackToStart;
+            _state = State.Wandering;
         }
     }
-
 
     /// <summary>
     /// logic of GoingBackToStart state
     /// </summary>
     private void LogicGoingBackToStart()
     {
-        _rotationToTarget = Quaternion.LookRotation(_startingPosition - transform.position, lookRotationUpwards);
+        if (_startingPosition - transform.position != Vector3.zero)
+        {
+            _rotationToTarget = Quaternion.LookRotation(_startingPosition - transform.position, lookRotationUpwards);
+        }
         transform.rotation = _rotationToTarget;
         transform.position = Vector3.MoveTowards(transform.position, _startingPosition,
             speedOfMovement*Time.deltaTime);
@@ -279,11 +290,6 @@ public class EnemyAI : MonoBehaviour
         return newWanderPosition;
     }
     
-    public static Vector3 GetRandomDir()
-    {
-        return new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-    }
-    
     /// <summary>
     ///   <para> While wandering, this gameObject checks if it should chase its target now.</para>
     /// </summary>
@@ -292,12 +298,12 @@ public class EnemyAI : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, theTarget.transform.position) < chaseRange)
         {
-            // Yes Target is within range -> go chase it!
             _state = State.ChaseTarget;
         }
     }
     /// <summary>
     ///   <para> An external impact changes this gameObject's position</para>
+    ///   <para> (for non-convex enemy, change the transform.position; do not .AddForce because no RigidBody)</para>
     /// </summary>
     /// /// <param name="force"></param>
     public void Push(Vector3 force)

@@ -1,8 +1,8 @@
-using System;
+using System.Collections;
 using UnityEngine;
 /// <summary>
 ///   <para> This represents any kind of enemy (including ghosts, bosses).</para>
-///   <para> They all have fighting skills (methods), and some kind of health.</para>
+///   <para> They all have fighting skills (methods), and some kind of health (points or boss-specific).</para>
 /// </summary>
 public class Enemy : MonoBehaviour
 {
@@ -19,18 +19,26 @@ public class Enemy : MonoBehaviour
         set { _healthSystem = value; }
     }
     
-    private int _strength = 25;  // the damage inflicted by an attack of this enemy.
+    private int _strength = 15;  // the damage inflicted by an attack of this enemy.
     public int Strength
     {
         get { return _strength; }
         set { _strength = value; }
     }
     
-    private float _attackRange = 0.5f;  // how far can the enemy attack
+    private float _attackRange = 2.5f;  // how far can the enemy attack
     public float AttackRange
     {
         get { return _attackRange; }
         set { _attackRange = value; }
+    }
+
+    private bool _canAttack = true;
+
+    public bool CanAttack
+    {
+        get { return _canAttack; }
+        set { _canAttack = value; }
     }
     
     private LayerMask _playerMask;  // to which LayerMask does the enemy attack
@@ -53,6 +61,42 @@ public class Enemy : MonoBehaviour
     // -------------------------------------------------------------------
     /// <summary>
     ///   <para> It is called by the EnemyAI scripts of the enemy to inflict damage.</para>
+    ///   <para> the _forceDirection is for the enemy to take a step back at each strike.</para>
+    ///   <para> Remove the parameter, Attack(), to strike continuously.</para>
+    /// </summary>
+    public void Attack(Vector3 forceDirection, float timeToNextAttack, float stepBackMultiplayer)
+    {
+        // detect player in range of attack
+        _hitPlayer = Physics.OverlapSphere(_attackPoint.position, _attackRange, _playerMask);
+        
+        foreach (Collider player in _hitPlayer)
+        {
+            // make sure the player itself is hit - and not its blade, etc.
+            if (player.CompareTag("Player"))
+            {
+                player.GetComponent<PlayerManager>().HealthSystem.Damage(_strength);
+            }
+            
+            StartCoroutine(StepBack(forceDirection, timeToNextAttack, stepBackMultiplayer));
+        }
+    }
+    
+    IEnumerator StepBack(Vector3 forceDirection, float waitTillNextAttack, float stepBackMultiplayer)
+    {
+        Vector3 adjustedForceDirection = forceDirection * _attackRange * stepBackMultiplayer;
+        if (adjustedForceDirection == Vector3.zero)
+        {
+            adjustedForceDirection = Vector3.back * _attackRange * stepBackMultiplayer;
+        }
+        
+        gameObject.GetComponent<EnemyAI>().Push(adjustedForceDirection);
+        CanAttack = false;  // signal that this gameObject cannot attack for the moment 
+        yield return new WaitForSeconds(waitTillNextAttack);
+        CanAttack = true;  // enemy has waited long enough and can re-attack (and move again toward the player) 
+    }
+    
+    /// <summary>
+    /// Inflict a damage to the player. The enemy does NOT step back here.
     /// </summary>
     public void Attack()
     {
@@ -64,12 +108,11 @@ public class Enemy : MonoBehaviour
             // make sure the player itself is hit - and not its blade, etc.
             if (player.CompareTag("Player"))
             {
-                // player.GetComponent<PlayerManager>().TakeDamage(_strength);
                 player.GetComponent<PlayerManager>().HealthSystem.Damage(_strength);
-                Debug.Log("Enemy attacks");
             }
         }
     }
+    
 
     /// <summary>
     ///   <para> To Debug the Attack() method in Unity's Scene.</para>
@@ -100,17 +143,6 @@ public class Enemy : MonoBehaviour
         // Create initial health status in health system + listen onDeath
         _healthSystem = new HealthSystem(maxHealth);
         healthBar.Setup(_healthSystem);
-        _healthSystem.OnDeath += HealthSystemOnOnDeath;
-    }
-
-    /// <summary>
-    ///   <para> Trigger when enemy's life points reach zero.</para>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void HealthSystemOnOnDeath(object sender, EventArgs e)
-    {
-        Die(gameObject);
     }
     
     /// <summary>

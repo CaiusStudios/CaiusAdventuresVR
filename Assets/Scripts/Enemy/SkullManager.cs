@@ -8,18 +8,23 @@ public class SkullManager : Enemy
 {
     public Transform pfHealthBar;
     public Camera CenterEyeCamera;
-    public int maxHealth = 100;
+    public int skullMaxHealth = 100;
+    public int skullStrength = 15;
+    public float skullAttackRange = 2.5f;
     private float _redEffectDuration = 0.25f;
     // Start is called before the first frame update
     void Start()
     {
         // basics of an enemy
-        pfHealthBar.rotation = CenterEyeCamera.GetComponent<Camera>().transform.rotation; 
+        pfHealthBar.rotation = CenterEyeCamera.GetComponent<Camera>().transform.rotation;
+
+        Strength = skullStrength;
+        AttackRange = skullAttackRange;
         AttackPoint = transform;
         PlayerMask = LayerMask.GetMask("Player");
-        SetupHealthSystem(pfHealthBar, maxHealth);
+        SetupHealthSystem(pfHealthBar, skullMaxHealth);
         HealthSystem.OnHealthChanged += HealthSystemOnOnHealthChanged;
-        HealthSystem.Damage(10);
+        HealthSystem.OnDeath += HealthSystemOnOnDeath;
     }
 
     private void Update()
@@ -28,6 +33,12 @@ public class SkullManager : Enemy
         pfHealthBar.rotation = CenterEyeCamera.GetComponent<Camera>().transform.rotation;
     }
 
+    private void HealthSystemOnOnDeath(object sender, EventArgs e)
+    {
+        Die(gameObject);
+        StopAllCoroutines();
+    }
+    
     /// <summary>
     /// Responsible only to display a visual hit on this specific enemy when he's hit.
     /// </summary>
@@ -41,7 +52,10 @@ public class SkullManager : Enemy
         Color skullHeadColorOriginal = skullHeadColor;
         
         skullHead.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
-        StartCoroutine(ResetHeadColor(skullHead, skullHeadColorOriginal, _redEffectDuration));
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(ResetHeadColor(skullHead, skullHeadColorOriginal, _redEffectDuration));
+        }
     }
 
     /// <summary>

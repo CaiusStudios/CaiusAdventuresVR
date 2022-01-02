@@ -311,10 +311,11 @@ MonoBehaviour:
   chaseRange: 10
   attackRange: 5
   fireRate: 0.05
+  stepBack: 4
   thePlayer: {fileID: 0}
-  constraintMaxCoordinate: {fileID: 0}
-  constraintMinCoordinate: {fileID: 0}
-  targetPoints: []
+  stateMachineMaxCoordinate: {fileID: 0}
+  stateMachineMinCoordinate: {fileID: 0}
+  patrolPoints: []
 --- !u!114 &532439434
 MonoBehaviour:
   m_ObjectHideFlags: 0

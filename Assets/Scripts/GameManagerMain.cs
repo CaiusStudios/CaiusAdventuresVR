@@ -46,7 +46,7 @@ public class GameManagerMain : MonoBehaviour
         
         if (SceneManager.GetActiveScene().name == "Village")
         {
-            Debug.Log("************Starting dialogue********");
+            // Debug.Log("************Starting dialogue********");
             // DialoguePrologue(prologueJsonFile);
         }
 

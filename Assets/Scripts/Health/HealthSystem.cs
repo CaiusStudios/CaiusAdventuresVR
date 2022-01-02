@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 ///   <para> Independent class to manage Health (enemy, player).</para>
@@ -36,7 +37,7 @@ public class HealthSystem
         _health -= damageAmount;
         if (_health <= 0)
         {
-            _health = 0;
+            _health = 0;  // one cannot have negative health
             if (OnDeath != null) OnDeath(this, EventArgs.Empty);
         }
         // if there is subscriber to this event, trigger it.
