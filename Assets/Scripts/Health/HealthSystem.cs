@@ -9,6 +9,7 @@ public class HealthSystem
 {
     public event EventHandler OnHealthChanged;
     public event EventHandler OnDeath;
+    public event EventHandler OnShowBar;
     
     private int _health;
     private int _healthMax;
@@ -50,5 +51,10 @@ public class HealthSystem
         if (_health > _healthMax) _health = _healthMax;
         // if there is subscriber to this event, trigger it.
         if (OnHealthChanged != null) OnHealthChanged(this, EventArgs.Empty);
+    }
+
+    public void BarOnOff()
+    {
+        if (OnShowBar != null) OnShowBar(this, EventArgs.Empty);
     }
 }

@@ -17,7 +17,6 @@ public class EnemyAI : MonoBehaviour
     {
         Wandering,
         ChaseTarget,
-        GoingBackToStart,
     }
     
     // TODO: CHANGE so that only ONE choice is possible.
@@ -36,13 +35,12 @@ public class EnemyAI : MonoBehaviour
     private float _reachedPositionDistance = 1.0f;  // TODO: make only one such variable? w.r.t. posTolerance below
     private float _nextShootTime = 0.0f;
     private SkullManager _thisSkullCombat;
+    private float _attackRange;
     private Quaternion _rotationToTarget;
-    private Vector3 lookRotationUpwards = Vector3.up;
-    
+
     public float speedOfMovement = 4.0f;
-    public float speedOfChase = 8.0f;
-    public float chaseRange = 10.0f;
-    public float attackRange = 1.5f;
+    public float speedOfChase = 4.0f;
+    public float chaseRange = 15.0f;
     public float fireRate = 1f;
     public float stepBackMultiplayer = 1.25f;
     public GameObject thePlayer;
@@ -69,6 +67,7 @@ public class EnemyAI : MonoBehaviour
         _state = State.Wandering;
         thePlayer = GameObject.FindWithTag("Player");
         _thisSkullCombat = gameObject.GetComponent<SkullManager>();
+        _attackRange = _thisSkullCombat.AttackRange;
     }
 
     // Start is called before the first frame update
@@ -80,11 +79,10 @@ public class EnemyAI : MonoBehaviour
         if (EnemyBehaviour.Patrolling)
         {
             InitPatrolPos();
-            
         }
     }
     
-    // TODO: there must be a better way. 
+    // TODO: move it in Start() 
     void LateUpdate()
     {
         if (EnemyBehaviour.StateMachine)
@@ -107,13 +105,13 @@ public class EnemyAI : MonoBehaviour
     private void AIPureAttack()
     {
         // move to target
-        _rotationToTarget = Quaternion.LookRotation(thePlayer.transform.position - transform.position, lookRotationUpwards);
+        _rotationToTarget = Quaternion.LookRotation(thePlayer.transform.position - transform.position, Vector3.up);
         transform.rotation = _rotationToTarget;
         transform.position = Vector3.MoveTowards(transform.position, thePlayer.transform.position,
             speedOfChase*Time.deltaTime);
                 
         // Close enough to begin attack 'motion'
-        if (Vector3.Distance(transform.position, thePlayer.transform.position) < attackRange)
+        if (Vector3.Distance(transform.position, thePlayer.transform.position) < _attackRange)
         {
             // and time allowed for next attack
             if (Time.time > _nextShootTime)
@@ -182,9 +180,6 @@ public class EnemyAI : MonoBehaviour
             case State.ChaseTarget:
                 LogicChaseTarget();
                 break;
-            case State.GoingBackToStart:
-                LogicGoingBackToStart();
-                break;
         }
     }
     
@@ -194,7 +189,7 @@ public class EnemyAI : MonoBehaviour
     private void LogicWandering()
     {
         Vector3 lookForward = _wanderPosition - transform.position;
-        _rotationToTarget = Quaternion.LookRotation(lookForward, lookRotationUpwards);
+        _rotationToTarget = Quaternion.LookRotation(lookForward, Vector3.up);
         transform.rotation = _rotationToTarget;
                 
         transform.position = Vector3.MoveTowards(transform.position, _wanderPosition,
@@ -220,7 +215,7 @@ public class EnemyAI : MonoBehaviour
         // look at the player and chase him
         if (initDistanceToPlayer > _posTolerance)  // enemy and player are distant
         {
-            _rotationToTarget = Quaternion.LookRotation(initDistanceToPlayerVector3, lookRotationUpwards);
+            _rotationToTarget = Quaternion.LookRotation(initDistanceToPlayerVector3, Vector3.up);
         }
         transform.rotation = _rotationToTarget;  // the enemy look at the player
         if (_thisSkullCombat.CanAttack)  // the enemy stay idle if he just attacked (and cannot re-attack)
@@ -233,13 +228,13 @@ public class EnemyAI : MonoBehaviour
 
         // update distance at each frame and check if close enough to begin attack/strike
         float updatedDistanceToPlayer = Vector3.Distance(transform.position, thePlayer.transform.position);
-        if (updatedDistanceToPlayer <= attackRange && _thisSkullCombat.CanAttack)
+        if (updatedDistanceToPlayer <= _attackRange && _thisSkullCombat.CanAttack)
         {
             if (Time.time > _nextShootTime)
             {
                 Vector3 forceDirection = (transform.position - thePlayer.transform.position).normalized;
-                 _thisSkullCombat.Attack(forceDirection, 1f/fireRate, stepBackMultiplayer);
-                 _nextShootTime = Time.time + 0.25f;
+                _thisSkullCombat.Attack(forceDirection, 1f/fireRate, stepBackMultiplayer);
+                _nextShootTime = Time.time + 0.25f;
             }
         }
         
@@ -247,24 +242,7 @@ public class EnemyAI : MonoBehaviour
         if (Vector3.Distance(transform.position, thePlayer.transform.position) > chaseRange)
         {
             _state = State.Wandering;
-        }
-    }
-
-    /// <summary>
-    /// logic of GoingBackToStart state
-    /// </summary>
-    private void LogicGoingBackToStart()
-    {
-        if (_startingPosition - transform.position != Vector3.zero)
-        {
-            _rotationToTarget = Quaternion.LookRotation(_startingPosition - transform.position, lookRotationUpwards);
-        }
-        transform.rotation = _rotationToTarget;
-        transform.position = Vector3.MoveTowards(transform.position, _startingPosition,
-            speedOfMovement*Time.deltaTime);
-        if (Vector3.Distance(transform.position, _startingPosition) < _reachedPositionDistance)
-        {
-            _state = State.Wandering;
+            gameObject.GetComponent<Enemy>().HealthSystem.BarOnOff();  // switch bar off
         }
     }
     
@@ -299,6 +277,7 @@ public class EnemyAI : MonoBehaviour
         if (Vector3.Distance(transform.position, theTarget.transform.position) < chaseRange)
         {
             _state = State.ChaseTarget;
+            gameObject.GetComponent<Enemy>().HealthSystem.BarOnOff();  // switch bar on
         }
     }
     /// <summary>

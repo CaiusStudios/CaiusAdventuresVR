@@ -6,18 +6,20 @@ using UnityEngine;
 /// </summary>
 public class SkullManager : Enemy
 {
+    public Material originalMaterial;
     public Transform pfHealthBar;
-    public Camera CenterEyeCamera;
     public int skullMaxHealth = 100;
     public int skullStrength = 15;
     public float skullAttackRange = 2.5f;
+    
     private float _redEffectDuration = 0.25f;
+    public Transform DeathEffect;
+    private static readonly int Color1 = Shader.PropertyToID("_Color");  // JetBrains Rider suggestion
+
     // Start is called before the first frame update
     void Start()
     {
         // basics of an enemy
-        pfHealthBar.rotation = CenterEyeCamera.GetComponent<Camera>().transform.rotation;
-
         Strength = skullStrength;
         AttackRange = skullAttackRange;
         AttackPoint = transform;
@@ -27,18 +29,22 @@ public class SkullManager : Enemy
         HealthSystem.OnDeath += HealthSystemOnOnDeath;
     }
 
-    private void Update()
-    {
-        // TODO: à fixer/ trouver une autre solution pour que la bar soit face au player.
-        pfHealthBar.rotation = CenterEyeCamera.GetComponent<Camera>().transform.rotation;
-    }
-
     private void HealthSystemOnOnDeath(object sender, EventArgs e)
     {
-        Die(gameObject);
-        StopAllCoroutines();
+        Transform deathExplosion = Instantiate(
+            DeathEffect,
+            transform.position,
+            transform.rotation,
+            transform);
+
+        ParticleSystem deathPS = deathExplosion.GetComponent<ParticleSystem>();
+        deathPS.transform.SetParent(null);  // the particle system is not a child anymore
+        deathPS.Play();
+        Destroy(deathPS, deathPS.main.duration);  // particle effect dies when it ends 
+        Die(gameObject);  // enemy dies/disables now
+        
     }
-    
+
     /// <summary>
     /// Responsible only to display a visual hit on this specific enemy when he's hit.
     /// </summary>
@@ -46,15 +52,13 @@ public class SkullManager : Enemy
     /// <param name="e"></param>
     private void HealthSystemOnOnHealthChanged(object sender, EventArgs e)
     {
-        // color the enemy in red? make shake? break?
+        // enemy flashes in red as it gets hit by the player
         GameObject skullHead = transform.Find("SkullHead").gameObject;
-        Color skullHeadColor = skullHead.GetComponent<MeshRenderer>().material.color;
-        Color skullHeadColorOriginal = skullHeadColor;
-        
-        skullHead.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
+
+        skullHead.GetComponent<MeshRenderer>().material.SetColor(Color1, Color.red);
         if (gameObject.activeSelf)
         {
-            StartCoroutine(ResetHeadColor(skullHead, skullHeadColorOriginal, _redEffectDuration));
+            StartCoroutine(ResetHeadColor(skullHead, originalMaterial.color, _redEffectDuration));
         }
     }
 
@@ -68,6 +72,6 @@ public class SkullManager : Enemy
     IEnumerator ResetHeadColor(GameObject skullHead, Color initCol, float redEffectDuration)
     {
         yield return new WaitForSeconds(redEffectDuration);
-        skullHead.GetComponent<MeshRenderer>().material.SetColor("_Color", initCol);
+        skullHead.GetComponent<MeshRenderer>().material.SetColor(Color1, initCol);
     }
 }

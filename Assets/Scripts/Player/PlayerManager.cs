@@ -34,8 +34,7 @@ public class PlayerManager : MonoBehaviour
         _healthSystem = new HealthSystem(maxHealth);
         _healthSystem.OnHealthChanged += HealthSystemOnOnHealthChanged;
         _healthSystem.OnDeath += HealthSystemOnOnDeath;
-        Debug.Log("Player starting health: " + _healthSystem.GetHealth());
-        
+
         // Audio
         _audioSource = GetComponent<AudioSource>();
     }

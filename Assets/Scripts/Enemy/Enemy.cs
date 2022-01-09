@@ -83,13 +83,14 @@ public class Enemy : MonoBehaviour
     
     IEnumerator StepBack(Vector3 forceDirection, float waitTillNextAttack, float stepBackMultiplayer)
     {
-        Vector3 adjustedForceDirection = forceDirection * _attackRange * stepBackMultiplayer;
+        Vector3 adjustedForceDirection = forceDirection * (_attackRange * stepBackMultiplayer);
         if (adjustedForceDirection == Vector3.zero)
         {
-            adjustedForceDirection = Vector3.back * _attackRange * stepBackMultiplayer;
+            adjustedForceDirection = Vector3.back * (_attackRange * stepBackMultiplayer);
         }
         
-        gameObject.GetComponent<EnemyAI>().Push(adjustedForceDirection);
+        gameObject.GetComponent<EnemyAI>().Push(adjustedForceDirection);  // enemy steps back
+        transform.rotation = Quaternion.LookRotation(forceDirection, Vector3.up);  // it looks at player
         CanAttack = false;  // signal that this gameObject cannot attack for the moment 
         yield return new WaitForSeconds(waitTillNextAttack);
         CanAttack = true;  // enemy has waited long enough and can re-attack (and move again toward the player) 
@@ -127,22 +128,24 @@ public class Enemy : MonoBehaviour
     // Health related methods: see HealthSystem.cs
     // -------------------------------------------------------------------
     /// <summary>
-    ///   <para> Given prefab bar is instantiated with that amount of health points.</para>
+    ///   <para> The given pfHealthBar is instantiated with maxHealth amount of health points.</para>
     /// </summary>
     /// <param name="pfHealthBar"></param>
     /// <param name="maxHealth"></param>
     public void SetupHealthSystem(Transform pfHealthBar, int maxHealth)
     {
-        Vector3 thisPosition = transform.position;   // TODO: Needed? it's to avoid the msg "Repeated property access".
+        Vector3 thisPosition = transform.position;   // cash; avoid repeated access
+        
         Transform healthBarTransform = Instantiate(
             pfHealthBar, 
             new Vector3(thisPosition.x, 5, thisPosition.z),
-            Quaternion.identity, transform);
+            Quaternion.identity, 
+            transform);
         HealthBar healthBar = healthBarTransform.GetComponent<HealthBar>();
         
-        // Create initial health status in health system + listen onDeath
         _healthSystem = new HealthSystem(maxHealth);
         healthBar.Setup(_healthSystem);
+        _healthSystem.BarOnOff();  // switch health bar off
     }
     
     /// <summary>

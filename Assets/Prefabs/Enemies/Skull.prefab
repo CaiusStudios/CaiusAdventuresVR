@@ -303,15 +303,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyBehaviour:
-    StateMachine: 0
+    StateMachine: 1
     PureAttack: 0
     Patrolling: 0
   speedOfMovement: 4
-  speedOfChase: 8
-  chaseRange: 10
-  attackRange: 5
-  fireRate: 0.05
-  stepBack: 4
+  speedOfChase: 4
+  chaseRange: 15
+  fireRate: 0.5
+  stepBackMultiplayer: 1.25
   thePlayer: {fileID: 0}
   stateMachineMaxCoordinate: {fileID: 0}
   stateMachineMinCoordinate: {fileID: 0}
@@ -328,9 +327,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c589b6fde95153247930a281f143f7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pfHealthBar: {fileID: 0}
-  CenterEyeCamera: {fileID: 0}
-  maxHealth: 100
+  originalMaterial: {fileID: 0}
+  pfHealthBar: {fileID: 8257574181829346213, guid: 39a3ad807ad15204f8626753d99f9179, type: 3}
+  skullMaxHealth: 100
+  skullStrength: 15
+  skullAttackRange: 2.5
 --- !u!65 &740612197210078294
 BoxCollider:
   m_ObjectHideFlags: 0
