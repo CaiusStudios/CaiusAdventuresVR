@@ -315,9 +315,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c589b6fde95153247930a281f143f7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalMaterial: {fileID: 0}
   pfHealthBar: {fileID: 0}
-  CenterEyeCamera: {fileID: 0}
-  maxHealth: 100
+  skullMaxHealth: 100
+  skullStrength: 5
+  skullAttackRange: 1
+  DeathEffect: {fileID: 0}
 --- !u!114 &3938932724775427087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,8 +340,8 @@ MonoBehaviour:
   speedOfMovement: 4
   speedOfChase: 8
   chaseRange: 10
-  attackRange: 5
   fireRate: 0.05
+  stepBackMultiplayer: 1.25
   thePlayer: {fileID: 0}
   stateMachineMaxCoordinate: {fileID: 0}
   stateMachineMinCoordinate: {fileID: 0}
@@ -350,7 +353,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4780269138536331114}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: dcaeac2c863bfde46a824daeab191bb5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4

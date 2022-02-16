@@ -13,13 +13,13 @@ GameObject:
   - component: {fileID: 6195872659289100253}
   - component: {fileID: 6464132082420901570}
   - component: {fileID: 6729833960785347970}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: WingLeft (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6854494592976471125
 Transform:
   m_ObjectHideFlags: 0
@@ -125,13 +125,13 @@ GameObject:
   - component: {fileID: 5580294039775018290}
   - component: {fileID: 5406970353624669256}
   - component: {fileID: 7103866054028532868}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: WingRight (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6552924625890087997
 Transform:
   m_ObjectHideFlags: 0
@@ -233,7 +233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1396851309901500326}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: rotationPoint
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: -1551644889625098122}
   - component: {fileID: 532439434}
   - component: {fileID: 740612197210078294}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: Skull
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 4605125584814084274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -60.50799, y: 46.5639, z: -14.272498}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 6854494592976471125}
   - {fileID: 6552924625890087997}
@@ -329,9 +329,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalMaterial: {fileID: 0}
   pfHealthBar: {fileID: 8257574181829346213, guid: 39a3ad807ad15204f8626753d99f9179, type: 3}
-  skullMaxHealth: 100
-  skullStrength: 15
-  skullAttackRange: 2.5
+  skullMaxHealth: 50
+  skullStrength: 5
+  skullAttackRange: 1
+  DeathEffect: {fileID: 0}
 --- !u!65 &740612197210078294
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -339,7 +340,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4605125584814084274}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: dcaeac2c863bfde46a824daeab191bb5, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -354,7 +355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5781171957879527547}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: rotationPoint
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
@@ -384,7 +385,7 @@ MeshCollider:
   m_GameObject: {fileID: 6244492929999084439}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -462,7 +463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8694629bbc7cc184cb4f7cca9af65d50, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8694629bbc7cc184cb4f7cca9af65d50, type: 3}
       propertyPath: m_TagString

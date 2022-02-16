@@ -13,12 +13,6 @@ public class DialogueManager : MonoBehaviour
     public Text nameText;
     public Text dialogueText;
     public Animator animator;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void StartDialogue(TextAsset jsonName)
     {
@@ -46,7 +40,6 @@ public class DialogueManager : MonoBehaviour
         if (_sentences.Count == 0)
         {
             EndDialogue();
-            FindObjectOfType<GameManagerMain>().screenBusy = false;  // end of dialogue, screen is free
             return;
         }
 
@@ -59,7 +52,7 @@ public class DialogueManager : MonoBehaviour
     IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
-        foreach (char letter in sentence.ToCharArray())
+        foreach (char letter in sentence)
         {
             dialogueText.text += letter;
             yield return null; // wait a single frame in between each letter added.

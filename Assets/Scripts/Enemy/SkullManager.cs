@@ -29,6 +29,13 @@ public class SkullManager : Enemy
         HealthSystem.OnDeath += HealthSystemOnOnDeath;
     }
 
+
+
+    /// <summary>
+    /// Manage what happen on death (no health points left) of the skull
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void HealthSystemOnOnDeath(object sender, EventArgs e)
     {
         Transform deathExplosion = Instantiate(

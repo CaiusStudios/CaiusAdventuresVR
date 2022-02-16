@@ -11,26 +11,28 @@ public class PlayerManager : MonoBehaviour
         get { return _healthSystem; }
         set { _healthSystem = value; }
     }
-    
+
+    private Camera _mainCamera;
     private AudioSource _audioSource;
-    
-    private Canvas _inventoryMenuCanvas;
-    
     private GameObject _currentSword;
     
+    private Canvas _inventoryMenuCanvas;
     private Canvas _redScreenAttack;
     private float _redScreenDuration = 0.25f;
     
     // Start is called before the first frame update
     void Start()
     {
-        _inventoryMenuCanvas = GameObject.FindWithTag("InventoryMenu").GetComponent<Canvas>();
+        _mainCamera = Camera.main;
+        _inventoryMenuCanvas = GameObject.Find("InventoryMenu").GetComponent<Canvas>();
         _inventoryMenuCanvas.enabled = false;
+        
+        _redScreenAttack = GameObject.Find("RedScreenAttack").GetComponent<Canvas>();
+        HideRedScreen();  // .enabled = false
+        
         _currentSword = GameObject.Find("Sword");
         
         // Health
-        _redScreenAttack = GameObject.Find("RedScreenAttack").GetComponent<Canvas>();
-        HideRedScreen();
         _healthSystem = new HealthSystem(maxHealth);
         _healthSystem.OnHealthChanged += HealthSystemOnOnHealthChanged;
         _healthSystem.OnDeath += HealthSystemOnOnDeath;
@@ -81,7 +83,7 @@ public class PlayerManager : MonoBehaviour
 
     private void SwitchSword()
     {
-        bool buttonAstate = OVRInput.GetDown(OVRInput.Button.One);
+        bool buttonAstate = OVRInput.GetDown(OVRInput.Button.Four);
         if (buttonAstate)
         {
             _currentSword.SetActive(!_currentSword.activeSelf);

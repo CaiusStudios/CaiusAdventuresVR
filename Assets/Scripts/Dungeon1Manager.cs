@@ -7,7 +7,7 @@ public class Dungeon1Manager : MonoBehaviour
     public GameObject endGate;
     public GameObject positionForEndGate;
 
-    private int _nbEndGate = 0;
+    private int _nbEndGate; // default = 0;
     private Dungeon1BossManager _dungeon1BossScriptSpawning;
     // Start is called before the first frame update
     void Start()
@@ -45,10 +45,6 @@ public class Dungeon1Manager : MonoBehaviour
     public void EndDungeon1Level()
     {
         Time.timeScale = 0;
-        FindObjectOfType<GameManagerMain>().screenBusy = true;
-        FindObjectOfType<GameManagerMain>().gameUICanvas.enabled = false;
         _endMenuCanvas.enabled = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        //FindObjectOfType<DiscoverPads>().freezeMovements = true;
     }
 }
