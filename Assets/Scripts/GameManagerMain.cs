@@ -30,7 +30,7 @@ public class GameManagerMain : MonoBehaviour
         // optionsMenuCanvas = GameObject.FindWithTag("OptionsMenu").GetComponent<Canvas>();
         // optionsMenuCanvas.enabled = false;
 
-        _scriptPlayerDamage = GameObject.FindWithTag("Player").GetComponent<PlayerManager>();
+        // TODO: resolve:_scriptPlayerDamage = GameObject.FindWithTag("Player").GetComponent<PlayerManager>();
         
         if (SceneManager.GetActiveScene().name == "Village")
         {
@@ -50,7 +50,7 @@ public class GameManagerMain : MonoBehaviour
         }
         
         // Manage when player dies: show Gameover menu
-        CheckPlayerStatus(); // TODO: make use of Event instead!
+        // TODO: not working with VR because player not find: CheckPlayerStatus(); // TODO: make use of Event instead!
     }
     
     //
